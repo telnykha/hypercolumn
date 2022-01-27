@@ -14,7 +14,7 @@ class TCSAdaBoostSign;
 class TLFAttrCascadeDetector : public ILFAttrDetector
 {
 protected:
-	virtual bool DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result);
+	virtual bool DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result);
 public :
 	TLFAttrCascadeDetector();
 };
@@ -27,7 +27,7 @@ private:
    TLFAttrCascadeDetector	*m_do_11_detector;
    TLFAttrCascadeDetector	*m_do_17_detector;
 protected:
-	virtual bool DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result);
+	virtual bool DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result);
 public :
 	TLFAttrSeriesDetector();
 	virtual ~TLFAttrSeriesDetector();
@@ -51,7 +51,7 @@ private:
     TCSStrong* m_Detector;
     TCSStrong* m_Detector1;
 protected:
-    virtual bool DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result);
+    virtual bool DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result);
 public:
     TCSSeparate();
     virtual ~TCSSeparate();
@@ -71,7 +71,7 @@ class TAttrCSStrongSign : public ILFAttrClassifier
 private:
         TCSStrongSign* m_Detector;
 protected:
-    virtual bool DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result);
+    virtual bool DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result);
 public:
         TAttrCSStrongSign();
         virtual ~TAttrCSStrongSign();

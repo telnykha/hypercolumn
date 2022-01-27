@@ -115,7 +115,6 @@ class  TLFTriangle;
 class  TLFDetectedItem;
 class  ILFDetectEngine;
 class  TLFZones;
-class  TLFRoi;
 class  TLFDblVector;
 
 /** \defgroup LFCommon
@@ -852,26 +851,6 @@ public:
 *   @{
 */
 
-
-/**  @brief (obsolete)Description of the image using the ROI files *.ieye file format
-*/
-class TLFRoiImageDescriptor : public TLFObject
-{
-protected:
-	TLFObjectList m_objects;
-public:
-	TLFRoiImageDescriptor();
-	TLFRoiImageDescriptor(const char* lpFileName);
-
-	int GetNumRois();
-	TLFRoi* GetRoi(int index);
-
-	void LoadFromFile(const char* lpFileName);
-	void SaveToFile(const char* lpFileName);
-	void AddRoi(awpPoint p1, awpPoint p2);
-	void Clear();
-};
-
 /** @brief Description of detect item. Can be any rectangle in the image.
 *   Used to describe the result of the operation of all types of detectors.
 *   See ILFObjectDetector.
@@ -1146,7 +1125,7 @@ protected:
 	/* expert list
 	*/
 	TLFObjectList m_Experts;
-	virtual bool DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result) = 0;
+	virtual bool DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result) = 0;
 public:
 	ILFAttrDetector();
 	virtual ~ILFAttrDetector();
@@ -1158,7 +1137,7 @@ public:
 	bool Save(const char* pXmlFileName);
 	/* classify image
 	*/
-	virtual bool Classify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result);
+	virtual bool Classify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result);
 	/* detector structure
 	*/
 	int GetNumExperts();
@@ -1195,7 +1174,7 @@ protected:
 	double m_threshold1;
 	double m_threshold2;
 	SLFAttrResult m_LastResult;
-	virtual bool DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result) = 0;
+	virtual bool DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result) = 0;
 public:
   ILFAttrClassifier();
   virtual ~ILFAttrClassifier();
@@ -1203,7 +1182,7 @@ public:
   virtual bool SaveToNode(TiXmlElement* parent) = 0;
 
   /*classify pRoi on the pImage*/
-  virtual bool Classify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result);
+  virtual bool Classify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result);
 
   /*parameters exchange*/
   double GetThreshold1();
