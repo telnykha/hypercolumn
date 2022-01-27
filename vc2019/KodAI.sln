@@ -29,7 +29,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSBuilder", "..\awplflib\vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "roc", "..\awplflib\vc\vc2019\roc\roc.vcxproj", "{9F88BBCB-B336-48DD-BAEF-7268220C399F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awpcvvideo", "..\awpcvvideo\awpcvvideo.vcxproj", "{8B0D0586-46EA-4F01-B391-150F2B2D9E48}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awpcvvideo", "..\awpcvvideo\vc2019\awpcvvideo.vcxproj", "{8B0D0586-46EA-4F01-B391-150F2B2D9E48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

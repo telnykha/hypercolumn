@@ -77,8 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\..\awpipl2\include;..\..\..\opencv\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\opencv\x86\vc12\lib\;..\..\..\awpipl2\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\awpipl2\include;..\..\opencv\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\opencv\x86\vc12\lib\;..\..\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -166,33 +166,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="awpcvvideo.def" />
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="awpcvvideo.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="awpcvvideo.cpp" />
-    <ClCompile Include="dllmain.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
       <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\awpcvvideo.cpp" />
+    <ClCompile Include="..\dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\awpcvvideo.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\awpcvvideo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
