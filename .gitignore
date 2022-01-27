@@ -34,3 +34,5 @@
 *.user
 *.filters
 *.sdf
+*.ipch
+.vs\
