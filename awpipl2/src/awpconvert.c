@@ -767,7 +767,7 @@ static AWPBOOL _awp32DibToAwp(const BITMAPINFO* pBMI, const void* pBMData, awpIm
 
     if (pBMI->bmiHeader.biCompression == BI_RGB)
     {
-        //todo: decompress
+        //todo: decompress 
         awp_row = (AWPBYTE*)pImage->pPixels;
         dib_dw  = (DWORD*)pBMData;
         i=0;

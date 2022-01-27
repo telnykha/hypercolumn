@@ -256,8 +256,6 @@
     <ClCompile Include="..\..\src\LFDetector.cpp" />
     <ClCompile Include="..\..\src\LFDistance.cpp" />
     <ClCompile Include="..\..\src\LFEngine.cpp" />
-    <ClCompile Include="..\..\src\LFEye.cpp" />
-    <ClCompile Include="..\..\src\LFFaceDescriptor.cpp" />
     <ClCompile Include="..\..\src\LFFeatureImpl.cpp" />
     <ClCompile Include="..\..\src\LFFeatures.cpp" />
     <ClCompile Include="..\..\src\LFFileUtils.cpp" />
@@ -270,7 +268,6 @@
     <ClCompile Include="..\..\src\LFMotion.cpp" />
     <ClCompile Include="..\..\src\LFParameter.cpp" />
     <ClCompile Include="..\..\src\LFPredictors.cpp" />
-    <ClCompile Include="..\..\src\LFSabotage.cpp" />
     <ClCompile Include="..\..\src\LFSample.cpp" />
     <ClCompile Include="..\..\src\LFScanners.cpp" />
     <ClCompile Include="..\..\src\LFSemantic.cpp" />
@@ -296,8 +293,6 @@
     <ClInclude Include="..\..\include\LFDetector.h" />
     <ClInclude Include="..\..\include\LFDistance.h" />
     <ClInclude Include="..\..\include\LFEngine.h" />
-    <ClInclude Include="..\..\include\LFEye.h" />
-    <ClInclude Include="..\..\include\LFFace.h" />
     <ClInclude Include="..\..\include\LFFeatures.h" />
     <ClInclude Include="..\..\include\LFFileUtils.h" />
     <ClInclude Include="..\..\include\LFGeometry.h" />
@@ -309,7 +304,6 @@
     <ClInclude Include="..\..\include\LFMotion.h" />
     <ClInclude Include="..\..\include\LFParameter.h" />
     <ClInclude Include="..\..\include\LFPredictors.h" />
-    <ClInclude Include="..\..\include\LFSabotage.h" />
     <ClInclude Include="..\..\include\LFSample.h" />
     <ClInclude Include="..\..\include\LFScanners.h" />
     <ClInclude Include="..\..\include\LFSemantic.h" />
