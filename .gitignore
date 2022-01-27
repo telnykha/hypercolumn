@@ -34,3 +34,17 @@
 *.user
 *.filters
 *.sdf
+*.ipch
+jpeg-6b/vc/vc2019/Debug/*.*
+awpcvvideo/Debug/
+vc2019/.vs/
+TinyXML/vc/vc2019/Debug/
+awpcvvideo/Debug/
+awpipl2/vc/vc2019/Debug/
+*.ilk
+awplflib/vc/vc2019/CSBuilder/Debug/
+vc2019/Debug/
+awplflib/vc/vc2019/Debug/
+*.pdb
+awplflib/vc/vc2019/roc/Debug/
+*.pdb

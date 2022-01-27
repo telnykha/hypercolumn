@@ -182,7 +182,7 @@ bool ILFAttrDetector::Save(const char* pXmlFileName)
 }
 /* classify image
 */
-bool ILFAttrDetector::Classify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result)
+bool ILFAttrDetector::Classify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result)
 {
 	// todo: this code is subject to change to support fast computing 
 	return DoClassify(pImage, pRoi, result);
@@ -281,7 +281,7 @@ TLFAttrCascadeDetector::TLFAttrCascadeDetector()
 {
 	m_Name = "Cascade detector of image attributes.";
 }
-bool TLFAttrCascadeDetector::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result)
+bool TLFAttrCascadeDetector::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result)
 {
 	
 	bool res = false;
@@ -297,7 +297,7 @@ bool TLFAttrCascadeDetector::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrR
 		return res;
 	if (pRoi == NULL)
 		return res;
-    awpRect rect = pRoi->GetRoi().r;
+    awpRect rect = pRoi->GetRect();
     if (awpRectInImage(pImage->GetImage(), &rect) != AWP_OK )
 		return false;
 
@@ -308,10 +308,10 @@ bool TLFAttrCascadeDetector::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrR
 	if (this->m_needResize)
 	{
 		TLFImage fragment;
-		awpImage* img = pImage->GetImage();
-		TROI roi = pRoi->GetRoi();
-		roi.inflate(this->m_objectScale);
-		awpRect r = roi.r;
+		awpImage* img = pImage->GetImage(); 
+		//todo: check this code
+		pRoi->Inflate(1,1);
+		awpRect r = pRoi->GetRect();
 		awpImage* img1 = NULL;
 		awpImage* img2 = NULL;
 		awpCopyRect(img, &img1, &r);
@@ -381,7 +381,8 @@ void  ILFAttrClassifier::SetThreshold2(double value)
     m_threshold2 = value;
 }
 //---------------------------------------------------------------------------
-bool ILFAttrClassifier::Classify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result)
+// todo: completely redo 
+bool ILFAttrClassifier::Classify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result)
 {
     if (true)
     {
@@ -390,53 +391,6 @@ bool ILFAttrClassifier::Classify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& 
         result = m_LastResult;
         return res;
     }
-    // fast computing is off
-    // make 27 measurements
-    double scale = 0.8f;
-    int hst[3]; memset(hst, 0, sizeof(hst));
-    // ranging rois
-    while (scale <= 1.2f)
-    {
-        TLFRoi tmp;
-        TROI tmp_roi = pRoi->GetRoi();
-        tmp.SetRoi(&tmp_roi);
-        tmp.Scale(scale);
-        double delta = (tmp.GetRoi().r.right - tmp.GetRoi().r.left) / 16.f;
-        if (delta == 0)
-                return false;
-        int c = 0;
-        double dy = - delta;
-        while(dy <= delta)
-        {
-            double dx = - delta;
-            while(dx <= delta)
-            {
-               TLFRoi tmp1;
-               TROI tmp_roi = tmp.GetRoi();
-               tmp1.SetRoi(&tmp_roi);
-               tmp1.Shift((int)dx,(int)dy);
-               if (tmp1.GetRoi().IsROIInImage(pImage->GetImage()))
-               {
-                 SLFAttrResult res;
-                 if (DoClassify(pImage, &tmp1,  res))
-                     hst[res.m_Result + 1]++;
-               }
-               c++;
-               dx += delta;
-            }
-            dy += delta;
-        }
-        scale += 0.2f;
-    }
-    int max = hst[0];int idx = 0;
-    for (int i = 0; i < 3; i++)
-       if (max < hst[i])
-       {
-            max = hst[i];
-            idx = i;
-       }
-    result.m_Result = idx - 1;
-    return true;
 }
 SLFAttrResult ILFAttrClassifier::GetlastResult()
 {
@@ -492,7 +446,7 @@ ILFAttrClassifier* TCSSeparate::LoadFromNode(TiXmlElement* parent)
   return this;
 }
 
-bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result)
+bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result)
 {
    if (pImage == NULL || pRoi == NULL)
     return false;
@@ -500,8 +454,7 @@ bool TCSSeparate::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& resu
    if (img == NULL)
     return false;
    awpImage* fragment = NULL;
-   TROI roi = pRoi->GetRoi();
-   awpRect r = roi.r;
+   awpRect r = pRoi->GetRect();
    awpCopyRect(img, &fragment, &r);
    if (fragment == NULL)
     return false;
@@ -581,7 +534,7 @@ void  TAttrCSStrongSign::SetThreshold2(double value)
     m_threshold2 = value;
 }
 
-bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result)
+bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result)
 {
 
    if (pImage == NULL)
@@ -594,8 +547,7 @@ bool TAttrCSStrongSign::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult
 
 	   awpImage* fragment = NULL;
 	   awpImage* pIntegral = NULL;
-	   TROI roi = pRoi->GetRoi();
-	   awpRect r = roi.r;
+	   awpRect r = pRoi->GetRect();
 
 	   awpCopyRect(img, &fragment, &r);
 	   if (fragment == NULL)
@@ -764,7 +716,7 @@ bool TLFAttrSeriesDetector::Load(const char* pXmlFileName)
     return true;
 }
 
-bool TLFAttrSeriesDetector::DoClassify(TLFImage* pImage, TLFRoi* pRoi, SLFAttrResult& result)
+bool TLFAttrSeriesDetector::DoClassify(TLFImage* pImage, TLFRect* pRoi, SLFAttrResult& result)
 {
 	if ( !m_infant_detector->Classify( pImage, pRoi, result ) )
 		return false;
