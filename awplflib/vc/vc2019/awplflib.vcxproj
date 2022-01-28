@@ -288,6 +288,7 @@
     <ClInclude Include="..\..\include\LFBuilder.h" />
     <ClInclude Include="..\..\include\LFCluster.h" />
     <ClInclude Include="..\..\include\LFColorDetector.h" />
+    <ClInclude Include="..\..\include\LFCore.h" />
     <ClInclude Include="..\..\include\LFCSBoost.h" />
     <ClInclude Include="..\..\include\LFDatabase.h" />
     <ClInclude Include="..\..\include\LFDetector.h" />
@@ -298,6 +299,7 @@
     <ClInclude Include="..\..\include\LFGeometry.h" />
     <ClInclude Include="..\..\include\LFHistogramm.h" />
     <ClInclude Include="..\..\include\LFImageProcessor.h" />
+    <ClInclude Include="..\..\include\LFInterface.h" />
     <ClInclude Include="..\..\include\LFLabColor.h" />
     <ClInclude Include="..\..\include\LFLandmarks.h" />
     <ClInclude Include="..\..\include\LFMCDetector.h" />
