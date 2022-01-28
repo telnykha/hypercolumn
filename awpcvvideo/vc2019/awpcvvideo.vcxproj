@@ -96,7 +96,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\lib\win32\</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>awpcvvideo.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>..\awpcvvideo.def</ModuleDefinitionFile>
       <OutputFile>..\..\..\bin\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -173,9 +173,6 @@
   <ItemGroup>
     <ClCompile Include="..\awpcvvideo.cpp" />
     <ClCompile Include="..\dllmain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\awpcvvideo.def" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\awpcvvideo.h" />

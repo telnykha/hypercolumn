@@ -49,3 +49,4 @@ awplflib/vc/vc2019/Debug/
 awplflib/vc/vc2019/roc/Debug/
 awpcvvideo/vc2019/Debug/
 lib/Debug
+*.bsc
