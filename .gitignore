@@ -14,7 +14,7 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
+#*.dll
 
 # Fortran module files
 *.mod
@@ -24,7 +24,7 @@
 *.lai
 *.la
 *.a
-*.lib
+#*.lib
 
 # Executables
 *.exe
@@ -47,4 +47,5 @@ vc2019/Debug/
 awplflib/vc/vc2019/Debug/
 *.pdb
 awplflib/vc/vc2019/roc/Debug/
-*.pdb
+awpcvvideo/vc2019/Debug/
+lib/Debug
