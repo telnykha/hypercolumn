@@ -16,7 +16,6 @@ using namespace std;
 extern "C"
 {
 	#pragma comment(lib, "opencv_world300.lib")
-	#pragma comment(lib, "awpipl2.lib")
 }
 
 static int awpImageDepthToCvDepth(awpImage* src)
