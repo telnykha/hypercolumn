@@ -88,7 +88,7 @@ void Help(int argc, char **argv)
 	printf("--info -i filename\n");
 	printf("--flip -i filename -o outfile -p mode [mode = r - right, l - left, v - vertical, h - horizontal]\n");
 	printf("--resize -i filename -o outfile -p width:height:mode [mode = r - fast, b - bilinear, n - not in place]\n");
-	printf("--rescale -i filename -o outfile -p width:height\n");
+	printf("--rescale -i filename -o outfile -p Rescale_width:Rescale_height\n");
 	printf("--rotate -i filename -o outfile -p angle:mode [mode = r - fast, b - bilinear]\n");
 	printf("--rotatecenter -i filename -o outfile -p angle:x:y\n");
 	printf("--calc -i filename -i1 - filename2 -p mode [mode = and,or,xor,add,sub,mlt,div,min,max,avg] -o outfile \n");
@@ -99,9 +99,7 @@ void Help(int argc, char **argv)
 	printf("--convert -i filename -o outfile\n");
 	printf("--draw -i file name -o outfile -f mode [mode = line,rect,point,cross,ellipse,ellipse2] -p x1:x2:y1:y2:r:g:b:rd \n");
 	printf("--blob -p draw_cp:draw_contour:draw_rect:draw_axis:draw_ellipce -i filename -o outfile\n");
-	printf("--detect \n");
 	printf("--bacrproject \n");
-	printf("--camera \n");
 }
 void Blob(int argc, char** argv)
 {
