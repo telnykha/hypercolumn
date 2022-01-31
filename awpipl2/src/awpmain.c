@@ -2,7 +2,7 @@
     awpmain.c
 */
 #define _CRT_SECURE_NO_WARNINGS
-#include "../include/awpipl.h"
+#include "awpipl.h"
 #include "stdlib.h"
 
 #define CHECK_RESULT  \
@@ -767,6 +767,7 @@ int main (int argc, char **argv)
   int i = 0;
   if (argc < 2)
   {
+	  Help(0, NULL);
 	  return -1;
   }
    char* arg1 = argv[1];

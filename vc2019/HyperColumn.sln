@@ -28,6 +28,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "roc", "..\awplflib\vc\vc201
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awpcvvideo", "..\awpcvvideo\vc2019\awpcvvideo.vcxproj", "{8B0D0586-46EA-4F01-B391-150F2B2D9E48}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_awpipl", "..\test\awpipl_test\test_awpipl\test_awpipl.vcxproj", "{977ACFEE-35A1-4A7B-843D-85043478FD91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -92,6 +94,14 @@ Global
 		{8B0D0586-46EA-4F01-B391-150F2B2D9E48}.Release|Win32.Build.0 = Release|Win32
 		{8B0D0586-46EA-4F01-B391-150F2B2D9E48}.Release|x64.ActiveCfg = Release|x64
 		{8B0D0586-46EA-4F01-B391-150F2B2D9E48}.Release|x64.Build.0 = Release|x64
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Debug|Win32.ActiveCfg = Debug|Win32
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Debug|Win32.Build.0 = Debug|Win32
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Debug|x64.ActiveCfg = Debug|x64
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Debug|x64.Build.0 = Debug|x64
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Release|Win32.ActiveCfg = Release|Win32
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Release|Win32.Build.0 = Release|Win32
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Release|x64.ActiveCfg = Release|x64
+		{977ACFEE-35A1-4A7B-843D-85043478FD91}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
