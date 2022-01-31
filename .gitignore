@@ -71,3 +71,6 @@ awplflib/vc/vc2019/roc/x64
 awpcvvideo/vc2019/x64
 vc2019/x64
 test/awpipl_test/test_awpipl/Debug
+test/awpipl_test/test_awpipl/Release
+test/awpipl_test/test_awpipl/x64/Debug
+test/awpipl_test/test_awpipl/x64/Release
