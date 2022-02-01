@@ -347,7 +347,6 @@ void Info(int argc, char **argv)
 void Stat(int argc, char** argv) {
 	int idx = InputKey(argc, argv, "-i");
 	FILE * stat = fopen("result.txt", "w");
-	FILE * ht = fopen("hst.txt", "w");
 	awpImage* img = NULL; 
 	awpImage* hst = NULL; 
 	awpImage* mean = NULL;
