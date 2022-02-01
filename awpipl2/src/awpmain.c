@@ -135,7 +135,7 @@ void Blob(int argc, char** argv)
 	awpPoint p;
 	AWPDOUBLE perim = 0;
 	FILE * pFile;
-	pFile = fopen("c:\\_alt\\_proj\\awpipl2\\file.txt", "w+t");
+	pFile = fopen("c:\\Projects_repository\\hypercolumn\\vc2019\\Debug\\file.txt", "w+t");
 	for (int i = 0; i < num; i++)
 	{
 		awpStrObjSquare(&strokes[i], &square);
