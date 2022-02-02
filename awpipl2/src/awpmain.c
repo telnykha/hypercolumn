@@ -11,6 +11,12 @@
 		exit(-1); \
 	}\
 
+#define CHECK_RESULT_DRAW  \
+	if(res0!=AWP_OK || res1!=AWP_OK || res2!=AWP_OK){ \
+		printf("ERROR CODE:%i", res0);\
+		exit(-1); \
+	}\
+
 #define _CHECK\
 	if (k != 8)\
 	{\
@@ -97,7 +103,7 @@ void Help(int argc, char **argv)
 	printf("--contrast -i filename -o outfile -p mode [mode = a - autolevels, h - histogramm equalize]\n");
 	printf("--stat -i namefile\n");
 	printf("--convert -i filename -o outfile -p mode [mode = c]\n");
-	printf("--draw -i file name -o outfile -f mode [mode = line,rect,point,cross,ellipse,ellipse2] -p x1:x2:y1:y2:r:g:b:rd \n");
+	printf("--draw -i file name -o outfile -f mode [mode = line,rect,point,cross,ellipse] -p x1:x2:y1:y2:r:g:b:rd \n");
 	printf("--blob -p draw_cp:draw_contour:draw_rect:draw_axis:draw_ellipce -i filename -o outfile\n");
 	printf("--bacrproject \n");
 }
@@ -135,7 +141,7 @@ void Blob(int argc, char** argv)
 	awpPoint p;
 	AWPDOUBLE perim = 0;
 	FILE * pFile;
-	pFile = fopen("c:\\Projects_repository\\hypercolumn\\vc2019\\Debug\\file.txt", "w+t");
+	pFile = fopen("file.txt", "w+t");
 	for (int i = 0; i < num; i++)
 	{
 		awpStrObjSquare(&strokes[i], &square);
@@ -209,7 +215,10 @@ void Draw(int argc, char** argv) {
 	AWPWORD w= 0, h= 0;
 	int rd =1;
 	awpRect a;
-	int k = 0 , left = 0, top = 0, right = 0, bottom = 0;;
+	int k = 0 , left = 0, top = 0, right = 0, bottom = 0;
+	int res0 = AWP_OK;
+	int res1 = AWP_OK;
+	int res2 = AWP_OK;
 	int idx3 = InputKey(argc, argv, "-f");
 	awpPoint p1;
 	awpPoint p2;
@@ -219,46 +228,84 @@ void Draw(int argc, char** argv) {
 	if (strcmp(argv[idx3], "line") == 0){
 		k = sscanf(argv[idx2], "%hi:%hi:%hi:%hi:%lf:%lf:%lf:%i", &p1.X, &p1.Y, &p2.X, &p2.Y, &r, &g, &b, &rd);
 			_CHECK
-			awpDrawCLine(img, p1, p2, r, g, b, rd);}
+		res0 = awpDrawLine(img, p1, p2, 0, r, rd);
+		res1 = awpDrawLine(img, p1, p2, 1, g, rd);
+		res2 = awpDrawLine(img, p1, p2, 2, b, rd);
 
-	else if (strcmp(argv[idx3], "rect") == 0){
-		k = sscanf(argv[idx2], "%i:%i:%i:%i:%lf:%lf:%lf:%i", &left,&top,&bottom,&right,&r, &g, &b, &rd);
-			_CHECK
-		a.left = left;
-		a.bottom = bottom;
-		a.right = right;
-		a.top = top;
-			awpDrawCRect(img, &a, r, g, b, rd);}
+			CHECK_RESULT_DRAW
+			awpDrawCLine(img, p1, p2, r, g, b, rd)
+		__SaveImage(argv[idx1], img);
+	}
 
-	else if (strcmp(argv[idx3], "point") == 0){
-		k = sscanf(argv[idx2], "%hi:%hi:%lf:%lf:%lf:%i", &p1.X, &p1.Y, &r, &g, &b, &rd);
-			_CHECK2
-			awpDrawCPoint(img, p1, r, g, b, rd);}
-
-	else if (strcmp(argv[idx3], "cross") == 0){
+	else if (strcmp(argv[idx3], "rect") == 0) {
 		k = sscanf(argv[idx2], "%i:%i:%i:%i:%lf:%lf:%lf:%i", &left, &top, &bottom, &right, &r, &g, &b, &rd);
 			_CHECK
 		a.left = left;
 		a.bottom = bottom;
 		a.right = right;
 		a.top = top;
-			awpDrawCCross(img, &a, r, g, b, rd);}
+
+		res0 = awpDrawRect(img, &a, 0, r, rd);
+		res1 = awpDrawRect(img, &a, 1, g, rd);
+		res2 = awpDrawRect(img, &a, 2, b, rd);
+
+			CHECK_RESULT_DRAW
+			awpDrawCRect(img, &a, r, g, b, rd);
+		__SaveImage(argv[idx1], img);
+	}
+
+	else if (strcmp(argv[idx3], "point") == 0){
+		k = sscanf(argv[idx2], "%hi:%hi:%lf:%lf:%lf:%i", &p1.X, &p1.Y, &r, &g, &b, &rd);
+			_CHECK2
+
+		res0 = awpDrawPoint(img, p1, 0, r, rd); 
+		res1 = awpDrawPoint(img, p1, 1, g, rd); 
+		res2 = awpDrawPoint(img, p1, 2, b, rd); 
+
+			CHECK_RESULT_DRAW
+			awpDrawCPoint(img, p1, r, g, b, rd);
+		__SaveImage(argv[idx1], img);
+	}
+
+	else if (strcmp(argv[idx3], "cross") == 0) {
+		k = sscanf(argv[idx2], "%i:%i:%i:%i:%lf:%lf:%lf:%i", &left, &top, &bottom, &right, &r, &g, &b, &rd);
+		_CHECK
+		a.left = left;
+		a.bottom = bottom;
+		a.right = right;
+		a.top = top;
+
+		res0 = awpDrawCross(img, &a, 0, r, rd);
+		res1 = awpDrawCross(img, &a, 1, g, rd);
+		res2 = awpDrawCross(img, &a, 2, b, rd);
+
+			CHECK_RESULT_DRAW
+			awpDrawCCross(img, &a, r, g, b, rd);
+		__SaveImage(argv[idx1], img);
+	}
 
 	else if (strcmp(argv[idx3], "ellipse") == 0) {
 		k = sscanf(argv[idx2], "%hi:%hi:%hi:%hi:%lf:%lf:%lf:%lf:%i", &p1.X, &p1.Y, &w, &h, &angle, &r, &g, &b, &rd);
 			_CHECK3
-			awpDrawCEllipse(img, p1, w, h, angle, r, g, b, rd);}
 
-	else if (strcmp(argv[idx3], "ellipse2") == 0) {
+		res0 = awpDrawEllipse(img, p1, w, h, angle, 0, r, rd); 
+		res1 = awpDrawEllipse(img, p1, w, h, angle, 1, g, rd); 
+		res2 = awpDrawEllipse(img, p1, w, h, angle, 2, b, rd); 
+			CHECK_RESULT_DRAW
+			awpDrawCEllipse(img, p1, w, h, angle, r, g, b, rd);
+		__SaveImage(argv[idx1], img);
+	}
+
+	/*else if (strcmp(argv[idx3], "ellipse2") == 0) {
 		k = sscanf(argv[idx2], "%hi:%hi:%hi:%hi:%lf:%lf:%lf:%lf:%i", &p1.X, &p1.Y, &w, &h, &angle, &r, &g, &b, &rd);
 			_CHECK3
-	}
+	}*/
 
 	else{
 			printf("unknown draw option %s\n", argv[idx2]);
 			exit(-1);}
 
-			__SaveImage(argv[idx1], img);
+			
 			_AWP_SAFE_RELEASE_(img);
 }
 void Calc(int argc,char** argv) {
