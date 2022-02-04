@@ -100,10 +100,12 @@ void Help(int argc, char **argv)
 	printf("--calc -i filename -i1 - filename2 -p mode [mode = and,or,xor,add,sub,mlt,div,min,max,avg] -o outfile \n");
 	printf("--crop -i filename -o outfile -p left:top:right:bottom\n");
 	printf("--filter -p mode [mode = b,bm,s,sm,se,fe,fe1,en,eno,eo,eso,es,esw,ew,enw,pv,ph,sv,sh] -i filename -o outfile\n");
+	printf("--integral -i filename -o outfile -f mode [mode = integral, integral2] -p option [option = linear, square, rlinear, rsquare]\n");
+	printf("--makeBinary -i filename -o outfile -f mode [binary, inv_binary] -p threshold:min:max:left:top:right:bottom\n");
 	printf("--contrast -i filename -o outfile -p mode [mode = a - autolevels, h - histogramm equalize]\n");
 	printf("--stat -i namefile\n");
-	printf("--convert -i filename -o outfile -p mode [mode = c]\n");
-	printf("--draw -i file name -o outfile -f mode [mode = line,rect,point,cross,ellipse] -p x1:x2:y1:y2:r:g:b:rd \n");
+	printf("--convert -i filename -o outfile -p mode [mode = to_b, to_bwn, to_s, to_f, to_d, 3to1_b]\n");
+	printf("--draw -i filename -o outfile -f mode [mode = line,rect,point,cross,ellipse] -p x1:x2:y1:y2:r:g:b:rd \n");
 	printf("--blob -p draw_cp:draw_contour:draw_rect:draw_axis:draw_ellipce -i filename -o outfile\n");
 	printf("--bacrproject \n");
 }
@@ -199,15 +201,149 @@ void Convert(int argc, char** argv) {
 	awpImage* img = NULL;
 	__GET_IDX__
 	
-		
+		//to_b, to_bwn, to_s, to_f, to_d, 3to1_b
 		img = __LoadImage(argv[idx0]);
-	if (strcmp(argv[idx2], "c") == 0) {
-		awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
+	if (strcmp(argv[idx2], "to_b") == 0) {
+		awpConvert(img, AWP_CONVERT_TO_BYTE);
+	}
 
+	else if (strcmp(argv[idx2], "to_bwn") == 0) {
+		awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
+	}
+
+	else if (strcmp(argv[idx2], "to_s") == 0) {
+		awpConvert(img, AWP_CONVERT_TO_SHORT);
+	}
+
+	else if (strcmp(argv[idx2], "to_f") == 0) {
+		awpConvert(img, AWP_CONVERT_TO_FLOAT);
+	}
+
+	else if (strcmp(argv[idx2], "to_d") == 0) {
+		awpConvert(img, AWP_CONVERT_TO_DOUBLE);
+	}
+
+	else if (strcmp(argv[idx2], "3to1_b") == 0) {
+		awpConvert(img, AWP_CONVERT_3TO1_BYTE);
+	}
+
+	else {
+		printf("unknown convert option %s\n", argv[idx2]);
+		exit(-1);
 	}
 
 	__SaveImage(argv[idx1], img);
 	_AWP_SAFE_RELEASE_(img);
+}
+void Integral(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* imgo = NULL;
+	int idx3 = InputKey(argc, argv, "-f");
+	int res;
+	__GET_IDX__
+		img = __LoadImage(argv[idx0]);
+	if (strcmp(argv[idx3], "integral") == 0) {
+		if (strcmp(argv[idx2], "linear") == 0) {
+			res = awpIntegral(img, &imgo, AWP_LINEAR);
+			CHECK_RESULT
+		}
+
+		else if (strcmp(argv[idx2], "square") == 0) {
+			res = awpIntegral(img, &imgo, AWP_SQUARE);
+			CHECK_RESULT
+		}
+
+		else if (strcmp(argv[idx2], "rlinear") == 0) {
+			res = awpIntegral(img, &imgo, AWP_RLINEAR);
+			CHECK_RESULT
+		}
+
+		else if (strcmp(argv[idx2], "rsquare") == 0) {
+			res = awpIntegral(img, &imgo, AWP_RSQUARE);
+			CHECK_RESULT
+		}
+
+		else {
+			printf("unknown integral option %s\n", argv[idx2]);
+			exit(-1);
+		}
+	}
+
+	else if (strcmp(argv[idx3], "integral2") == 0) {
+		if (strcmp(argv[idx2], "linear") == 0) {
+			res = awpIntegral2(img, &imgo, AWP_LINEAR);
+			CHECK_RESULT
+		}
+
+		else if (strcmp(argv[idx2], "square") == 0) {
+			res = awpIntegral2(img, &imgo, AWP_SQUARE);
+			CHECK_RESULT
+		}
+
+		else if (strcmp(argv[idx2], "rlinear") == 0) {
+			res = awpIntegral2(img, &imgo, AWP_RLINEAR);
+			CHECK_RESULT
+		}
+
+		else if (strcmp(argv[idx2], "rsquare") == 0) {
+			res = awpIntegral2(img, &imgo, AWP_RSQUARE);
+			CHECK_RESULT
+		}
+
+		else {
+			printf("unknown integral option %s\n", argv[idx2]);
+			exit(-1);
+		}
+	}
+
+	else {
+		printf("unknown integral mode %s\n", argv[idx3]);
+		exit(-1);
+	}
+	img = imgo;
+	__SaveImage(argv[idx1], img);
+	_AWP_SAFE_RELEASE_(img);
+}
+void makeBinary(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* imgo = NULL;
+	int idx3 = InputKey(argc, argv, "-f");
+	int k, res, threshold, min, max;
+	awpRect* rect = NULL;
+	rect = (awpRect*)malloc(sizeof(awpRect));
+	int left = 0, top = 0, right = 0, bottom = 0;
+	__GET_IDX__
+		k = sscanf(argv[idx2], "%i:%i:%i:%i:%i:%i:%i", &threshold, 
+			&min, &max, &left, &top, &right, &bottom);
+		if (k != 7)
+		{
+			printf("invalid makeBinary params = %s\n", argv[idx2]);
+			exit(-1);
+		}
+	rect->left = left;
+	rect->top = top;
+	rect->right = right;
+	rect->bottom = bottom;
+	img = __LoadImage(argv[idx0]);
+	if (strcmp(argv[idx3], "binary") == 0) {
+		res = awpMakeBinary(img, &imgo, threshold, AWP_BINARY, min, max, rect);
+		CHECK_RESULT
+	}
+
+	else if (strcmp(argv[idx3], "inv_binary") == 0) {
+		res = awpMakeBinary(img, &imgo, threshold, AWP_INV_BINARY, min, max, rect);
+		CHECK_RESULT
+	}
+
+	else {
+		printf("unknown makeBinary option % s\n", argv[idx3]);
+		exit(-1);
+	}
+
+	img = imgo;
+	__SaveImage(argv[idx1], img);
+	_AWP_SAFE_RELEASE_(img);
+	
 }
 void Draw(int argc, char** argv) {
 	awpImage* img = NULL;
@@ -216,9 +352,7 @@ void Draw(int argc, char** argv) {
 	int rd =1;
 	awpRect a;
 	int k = 0 , left = 0, top = 0, right = 0, bottom = 0;
-	int res0 = AWP_OK;
-	int res1 = AWP_OK;
-	int res2 = AWP_OK;
+	int res0, res1, res2;
 	int idx3 = InputKey(argc, argv, "-f");
 	awpPoint p1;
 	awpPoint p2;
@@ -301,7 +435,7 @@ void Draw(int argc, char** argv) {
 			_CHECK3
 	}*/
 
-	else{
+	else {
 			printf("unknown draw option %s\n", argv[idx2]);
 			exit(-1);}
 
@@ -866,6 +1000,14 @@ int main (int argc, char **argv)
    else if (strcmp(arg1, "--convert") == 0)
    {
 	   Convert(argc, argv);
+   }
+   else if (strcmp(arg1, "--integral") == 0)
+   {
+	   Integral(argc, argv);
+   }
+   else if (strcmp(arg1, "--makeBinary") == 0)
+   {
+	   makeBinary(argc, argv);
    }
    else if (strcmp(arg1, "--draw") == 0)
    {
