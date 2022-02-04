@@ -102,6 +102,8 @@ void Help(int argc, char **argv)
 	printf("--filter -p mode [mode = b,bm,s,sm,se,fe,fe1,en,eno,eo,eso,es,esw,ew,enw,pv,ph,sv,sh] -i filename -o outfile\n");
 	printf("--integral -i filename -o outfile -f mode [mode = integral, integral2] -p option [option = linear, square, rlinear, rsquare]\n");
 	printf("--makeBinary -i filename -o outfile -f mode [binary, inv_binary] -p threshold:min:max:left:top:right:bottom\n");
+	printf("--median -i filename -o outfile -p radius\n");
+	printf("--gauss -i filename -o outfile -p sigma\n");
 	printf("--contrast -i filename -o outfile -p mode [mode = a - autolevels, h - histogramm equalize]\n");
 	printf("--stat -i namefile\n");
 	printf("--convert -i filename -o outfile -p mode [mode = to_b, to_bwn, to_s, to_f, to_d, 3to1_b]\n");
@@ -242,6 +244,7 @@ void Integral(int argc, char** argv) {
 	int res;
 	__GET_IDX__
 		img = __LoadImage(argv[idx0]);
+		//awpCopyImage(img, &imgo);
 	if (strcmp(argv[idx3], "integral") == 0) {
 		if (strcmp(argv[idx2], "linear") == 0) {
 			res = awpIntegral(img, &imgo, AWP_LINEAR);
@@ -344,6 +347,49 @@ void makeBinary(int argc, char** argv) {
 	__SaveImage(argv[idx1], img);
 	_AWP_SAFE_RELEASE_(img);
 	
+}
+void Median(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* imgo = NULL;
+	int res, k, radius;
+	__GET_IDX__
+
+		k = sscanf(argv[idx2], "%i", &radius);
+		if (k != 1)
+		{
+			printf("invalid median params = %s\n", argv[idx2]);
+			exit(-1);
+		}
+	img = __LoadImage(argv[idx0]);
+	awpCopyImage(img, &imgo);
+	res = awpMedian(img, imgo, radius);
+	CHECK_RESULT
+
+		img = imgo;
+		__SaveImage(argv[idx1], img);
+	_AWP_SAFE_RELEASE_(img);
+
+}
+void GaussianBlur(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* imgo = NULL;
+	int res, k, sigma;
+	__GET_IDX__
+		k = sscanf(argv[idx2], "%i", &sigma);
+		if (k != 1)
+		{
+			printf("invalid gauss params = %s\n", argv[idx2]);
+			exit(-1);
+		}
+
+	img = __LoadImage(argv[idx0]);
+	awpCopyImage(img, &imgo);
+	res = awpGaussianBlur(img, imgo, sigma);
+	CHECK_RESULT
+
+		img = imgo;
+	__SaveImage(argv[idx1], img);
+	_AWP_SAFE_RELEASE_(img);
 }
 void Draw(int argc, char** argv) {
 	awpImage* img = NULL;
@@ -1008,6 +1054,14 @@ int main (int argc, char **argv)
    else if (strcmp(arg1, "--makeBinary") == 0)
    {
 	   makeBinary(argc, argv);
+   }
+   else if (strcmp(arg1, "--median") == 0)
+   {
+	   Median(argc, argv);
+   }
+   else if (strcmp(arg1, "--gauss") == 0)
+   {
+	   GaussianBlur(argc, argv);
    }
    else if (strcmp(arg1, "--draw") == 0)
    {
