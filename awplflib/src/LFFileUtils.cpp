@@ -289,3 +289,29 @@ bool LFDeleteFile(const char* lpName)
   return res == 0;
 }
 
+bool LFIsImageFile(const char* fileName)
+{
+	std::string strExt = LFGetFileExt(fileName);
+	std::transform(strExt.begin(), strExt.end(), strExt.begin(), ::tolower);
+
+	if (strExt == ".awp")
+		return true;
+	if (strExt == ".jpg")
+		return true;
+	if (strExt == ".jpeg")
+		return true;
+
+	return false;
+}
+bool LFIsVideoFile(const char* fileName)
+{
+	std::string strExt = LFGetFileExt(fileName);
+	std::transform(strExt.begin(), strExt.end(), strExt.begin(), ::tolower);
+
+	if (strExt == ".avi")
+		return true;
+	if (strExt == ".mp4")
+		return true;
+
+	return false;
+}

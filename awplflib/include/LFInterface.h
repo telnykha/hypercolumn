@@ -70,11 +70,34 @@ public:
 	virtual int channels() = 0;
 };
 
+typedef void(*OnMediaNewFrame)(int Frame, ILFImage* img);
+
 class ILFMediaSource
 {
-public: 
+protected:
+	OnMediaNewFrame m_OnNewFrame;
+public:
+	ILFMediaSource(OnMediaNewFrame OnNewFrame)
+	{
+		m_OnNewFrame = OnNewFrame;
+	}
+	virtual bool Open(const char* name) = 0;
+	virtual void Close() = 0;
 
+	virtual unsigned int NumFrames() = 0;
+	virtual unsigned int CurrentFrame() = 0;
+	virtual bool SetCurrentFrame(unsigned int frame) = 0;
 
+	virtual bool First() = 0;
+	virtual bool Prev()  = 0;
+	virtual bool Next()  = 0;
+	virtual bool Last()  = 0;
+
+	//virtual void Play() = 0;
+	//virtual void Stop() = 0;
+	//virtual bool IsPlaying() = 0;
+
+	virtual ILFImage* Frame() = 0;
 };
 
 typedef enum _LF_SHAPE_TYPE {
@@ -279,3 +302,10 @@ public:
 
 
 // database 
+// todo: add database imterface 
+
+// trainer 
+// todo: add trainer interface 
+
+// paremeters
+// todo: add paraeters interface 

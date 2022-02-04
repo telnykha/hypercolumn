@@ -50,6 +50,10 @@
 
 #include "awpipl.h"
 #include "LFInterface.h"
+#include <string>
+#include <vector>
+typedef std::vector<std::string>      	TLFStrings;
+typedef std::string 					TLFString;
 
 /** \defgroup LFCommon
 *	Commnon classes for Locate Framework
@@ -65,6 +69,7 @@ public:
 	virtual ~TLFObject();
 	virtual const char* GetName();
 };
+typedef int(*TLFListSortCompare)(void* Item1, void* Item2);
 /** @brief List of LFObjects
 */
 class TLFObjectList : public TLFObject

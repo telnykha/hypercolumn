@@ -66,7 +66,6 @@ extern "C"
 #include <stdio.h>
 #include "tinyxml.h"
 
-typedef int(*TLFListSortCompare)(void * Item1, void * Item2);
 typedef void (*TLFProgress)(const char* lpMessage, int progress);
 
 static const char* c_lpDictFileName = "dictionary.xml";
@@ -81,8 +80,6 @@ class TLFZone;
 
 using namespace std;
 
-typedef std::vector<std::string>      	TLFStrings;
-typedef std::string 					TLFString;
 
 typedef struct
 {

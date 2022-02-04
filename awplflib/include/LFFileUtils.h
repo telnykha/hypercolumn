@@ -44,6 +44,9 @@
 
 #ifndef _lf_file_utils_h_ 
 #define _lf_file_utils_h_ 
+
+using namespace std;
+
 /** \defgroup LFFileUtils
 *	Implementation of file system related routines 
 *   @{
@@ -135,8 +138,9 @@ bool LFDirExist(const char* lpPath);
 bool LFRemoveDir(const char* lpPath);
 bool LFFileExists(const string& strFileName);
 bool LFDeleteFile(const char* lpName);
-
 bool LFGetDirFiles(const char* lpDir, TLFStrings& names);
+bool LFIsImageFile(const char* fileName);
+bool LFIsVideoFile(const char* fileName);
 // functions to convert data
 string LFIntToStr(int value);
 string LFGUIDToString(UUID* id);

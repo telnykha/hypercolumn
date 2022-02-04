@@ -279,6 +279,7 @@
     <ClCompile Include="..\..\src\LFWeak.cpp" />
     <ClCompile Include="..\..\src\LFWeakImpl.cpp" />
     <ClCompile Include="..\..\src\LFZones.cpp" />
+    <ClCompile Include="..\..\src\_LFMediaSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LF.h" />
