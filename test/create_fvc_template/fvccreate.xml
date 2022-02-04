@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+ <fvccreate in_database = "c:\_alt\data\car_pca\car\norm\1\" width = 36 height = 24 num_vct = 16 out_name = "tmpl.fvc">
+ </fvccreate>
+
