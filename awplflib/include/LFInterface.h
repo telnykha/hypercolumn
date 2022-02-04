@@ -54,20 +54,27 @@ typedef struct _LFPoint {
 typedef struct _LFRect {
 	double x;
 	double y;
+	double w;
+	double h;
 } LFRect, * LPLFRect;
 
 class ILFImage
 {
 public:
 	virtual bool LoadFromFile(const char* fileName)   = 0;
-	virtual bool SaveToFileFile(const char* fileName) = 0;
-	// [todo:] possible we don't need unsigned char ????
-	virtual unsigned char* pixels(int channel) = 0;
+	virtual bool SaveToFile(const char* fileName) = 0;
 	virtual double* integral(int channel)  = 0;
 	virtual double* integral2(int channel) = 0;
 	virtual int width() = 0;
 	virtual int height() = 0;
 	virtual int channels() = 0;
+};
+
+class ILFMediaSource
+{
+public: 
+
+
 };
 
 typedef enum _LF_SHAPE_TYPE {
@@ -130,6 +137,8 @@ public:
 };
 
 //Word 
+class _ILFDetector;
+
 class ILFWord
 {
 protected: 
@@ -139,6 +148,7 @@ public:
 	virtual const char* classID() = 0;
 	virtual int classColor() = 0;
 	virtual ILFWordAttributes* Attributes() = 0;
+	virtual _ILFDetector Detector() = 0;
 	LF_SHAPE_TYPE Shape();
 };
 
@@ -239,11 +249,8 @@ public:
 	virtual bool AddStrong(_ILFStrong* strong)								= 0;
 	virtual bool DeleteStrong(int index)									= 0;
 };
-// scanner 
-// 
-// attribute detector 
-// detector 
 class _ILFTrainer;
+
 class _ILFDetector
 {
 public: 
@@ -257,26 +264,18 @@ public:
 };
  
 //Model
-class ILFEngine;
 class ILFModel
 {
 public:
-	virtual ILFDictinary* Dictinary() = 0;
-	virtual ILFEngine* Engine() = 0;
-};
-
-// Engine 
-class ILFEngine
-{
-public: 
-	virtual bool Init(const char* lpModelName) = 0;
-	virtual bool Forward(ILFImage* image) = 0;
-	virtual bool Update(const char* path) = 0;
+	virtual ILFDictinary*	Dictinary() = 0;
 	virtual ILFDescriptor* Descriptor() = 0;
-	virtual ILFModel* Model() = 0;
 
-	/*surveillance zones*/
-	virtual ILFZones* Zones() = 0;
-	
+	virtual bool Load(const char* fileName) = 0;
+	virtual bool Forward(ILFImage* image) = 0; 
+	virtual bool Update(const char* db) = 0;
+
+
 };
+
+
 // database 
