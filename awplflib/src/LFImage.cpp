@@ -79,11 +79,18 @@ TLFImage::TLFImage()
 	m_pIntegralGreen = NULL;
 	m_pIntegralBlue = NULL;
 
+	m_pSqIntegralRed = NULL;
+	m_pSqIntegralGreen = NULL;
+	m_pSqIntegralBlue = NULL;
+
 	m_lnpix = NULL;
 	m_sqpix = NULL;
 	m_rlnpix = NULL;
 	m_glnpix = NULL;
 	m_blnpix = NULL;
+	m_rsqlnpix = NULL;
+	m_gsqlnpix = NULL;
+	m_bsqlnpix = NULL;
 }
 
 TLFImage::~TLFImage()
@@ -105,12 +112,20 @@ void TLFImage::FreeImages()
 	_AWP_SAFE_RELEASE_(m_pIntegralGreen);
 	_AWP_SAFE_RELEASE_(m_pIntegralBlue);
 
+	_AWP_SAFE_RELEASE_(m_pSqIntegralRed);
+	_AWP_SAFE_RELEASE_(m_pSqIntegralGreen);
+	_AWP_SAFE_RELEASE_(m_pSqIntegralBlue);
 
 	m_lnpix = NULL;
 	m_sqpix = NULL;
 	m_rlnpix = NULL;
 	m_glnpix = NULL;
 	m_blnpix = NULL;
+
+	m_rsqlnpix = NULL;
+	m_gsqlnpix = NULL;
+	m_bsqlnpix = NULL;
+
 
 	m_pRed = NULL;
 	m_pGreen = NULL;
@@ -119,6 +134,10 @@ void TLFImage::FreeImages()
 	m_pIntegralRed = NULL;
 	m_pIntegralGreen = NULL;
 	m_pIntegralBlue = NULL;
+
+	m_pSqIntegralRed = NULL;
+	m_pSqIntegralGreen = NULL;
+	m_pSqIntegralBlue = NULL;
 
 }
 
@@ -387,6 +406,54 @@ awpImage* TLFImage::GetBlueIntegral()
 	return this->m_pIntegralBlue;
 }
 
+awpImage* TLFImage::GetSqRedIntegral()
+{
+	if (this->m_pSqIntegralRed != NULL)
+		return this->m_pSqIntegralRed;
+	if (this->m_pImage == NULL)
+		return NULL;
+	awpImage* img = this->GetRedImage();
+	if (img == NULL)
+		return NULL;
+	awpIntegral(img, &this->m_pSqIntegralRed, AWP_SQUARE);
+	if (this->m_pSqIntegralRed != NULL)
+		this->m_rsqlnpix = (double*)this->m_pSqIntegralRed->pPixels;
+
+	return this->m_pSqIntegralRed;
+}
+awpImage* TLFImage::GetSqGreenIntegral()
+{
+	if (this->m_pSqIntegralGreen != NULL)
+		return this->m_pSqIntegralGreen;
+	if (this->m_pImage == NULL)
+		return NULL;
+	awpImage* img = this->GetGreenImage();
+	if (img == NULL)
+		return NULL;
+	awpIntegral(img, &this->m_pSqIntegralGreen, AWP_SQUARE);
+	if (this->m_pSqIntegralGreen != NULL)
+		this->m_gsqlnpix = (double*)this->m_pSqIntegralGreen->pPixels;
+
+	return this->m_pSqIntegralGreen;
+
+}
+awpImage* TLFImage::GetSqBlueIntegral()
+{
+	if (this->m_pSqIntegralBlue != NULL)
+		return this->m_pSqIntegralBlue;
+	if (this->m_pImage == NULL)
+		return NULL;
+	awpImage* img = this->GetBlueImage();
+	if (img == NULL)
+		return NULL;
+	awpIntegral(img, &this->m_pSqIntegralBlue, AWP_SQUARE);
+	if (this->m_pSqIntegralBlue != NULL)
+		this->m_bsqlnpix = (double*)this->m_pSqIntegralBlue->pPixels;
+
+	return this->m_pSqIntegralBlue;
+
+}
+
 
 
 bool TLFImage::SetImage(awpImage* pImage)
@@ -618,3 +685,69 @@ TLFImage* TLFImageList::GetImage(int index)
 	return (TLFImage*)this->Get(index);
 }
 
+
+double* TLFImage::integral(int channel)
+{
+	if (channel < 0 || m_pImage == NULL)
+		return NULL;
+	if (channel >= m_pImage->bChannels)
+		return NULL;
+	if (m_pImage->bChannels == 1 && channel == 0)
+		return (double*)(GetIntegralImage()->pPixels);
+	if (m_pImage->bChannels == 3)
+	{
+		if (channel == 0)
+			return (double*)(GetRedIntegral()->pPixels);
+		else if (channel == 1)
+			return (double*)(GetGreenIntegral()->pPixels);
+		else if (channel == 2)
+			return (double*)(GetBlueIntegral()->pPixels);
+		else
+			return NULL;
+	}
+	else
+		return NULL;
+
+}
+double* TLFImage::integral2(int channel)
+{
+	if (channel < 0 || m_pImage == NULL)
+		return NULL;
+	if (channel >= m_pImage->bChannels)
+		return NULL;
+	if (m_pImage->bChannels == 1 && channel == 0)
+		return (double*)(this->GetSqIntegralImage()->pPixels);
+	if (m_pImage->bChannels == 3)
+	{
+		if (channel == 0)
+			return (double*)(GetSqRedIntegral()->pPixels);
+		else if (channel == 1)
+			return (double*)(GetSqGreenIntegral()->pPixels);
+		else if (channel == 2)
+			return (double*)(GetSqBlueIntegral()->pPixels);
+		else
+			return NULL;
+	}
+	else
+		return NULL;
+}
+int TLFImage::width()
+{
+	if (this->m_pImage == NULL)
+		return 0;
+	return m_pImage->sSizeX;
+}
+int TLFImage::height()
+{
+	if (this->m_pImage == NULL)
+		return 0;
+	return m_pImage->sSizeY;
+
+}
+int TLFImage::channels()
+{
+	if (this->m_pImage == NULL)
+		return 0;
+	return (int)m_pImage->bChannels;
+
+}

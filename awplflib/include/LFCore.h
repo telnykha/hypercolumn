@@ -49,6 +49,7 @@
 #define  __lf_core_h__
 
 #include "awpipl.h"
+#include "LFInterface.h"
 
 /** \defgroup LFCommon
 *	Commnon classes for Locate Framework
@@ -160,7 +161,7 @@ public:
 *		   LoadDump, SaveDump
 *		   IntegralImage for each channel (for RGB 24 bit imiages)
 */
-class  TLFImage : public TLFObject
+class  TLFImage : public TLFObject, public ILFImage
 {
 protected:
 
@@ -169,6 +170,11 @@ protected:
 	double* m_rlnpix;
 	double* m_glnpix;
 	double* m_blnpix;
+
+	double* m_rsqlnpix;
+	double* m_gsqlnpix;
+	double* m_bsqlnpix;
+
 
 	awpImage* m_pImage;					/*source image in the grayscale*/
 	awpImage* m_pIntegralImage;         /*integral image*/
@@ -182,6 +188,9 @@ protected:
 	awpImage* m_pIntegralGreen;
 	awpImage* m_pIntegralBlue;
 
+	awpImage* m_pSqIntegralRed;
+	awpImage* m_pSqIntegralGreen;
+	awpImage* m_pSqIntegralBlue;
 
 public:
 	TLFImage();
@@ -213,6 +222,10 @@ public:
 	awpImage* GetGreenIntegral();
 	awpImage* GetBlueIntegral();
 
+	awpImage* GetSqRedIntegral();
+	awpImage* GetSqGreenIntegral();
+	awpImage* GetSqBlueIntegral();
+
 
 	virtual bool SetImage(awpImage* pImage);
 	bool         CopyImage(awpImage** ppImage);
@@ -234,6 +247,16 @@ public:
 	{
 		return "TLFImage";
 	}
+
+	/*
+		ILFImage implementation 
+	*/
+	// [todo:] possible we don't need unsigned char ????
+	virtual double* integral(int channel);
+	virtual double* integral2(int channel);
+	virtual int width();
+	virtual int height();
+	virtual int channels();
 };
 /** @brief List TLFImage objects
 */
