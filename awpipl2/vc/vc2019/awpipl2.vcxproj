@@ -236,7 +236,6 @@
     <ClCompile Include="..\..\src\awpcolor.c" />
     <ClCompile Include="..\..\src\awpdistance.c" />
     <ClCompile Include="..\..\src\awpEdge.c" />
-    <ClCompile Include="..\..\src\awpeigenlib.c" />
     <ClCompile Include="..\..\src\awpget.c" />
     <ClCompile Include="..\..\src\awpintegralfeatures.c" />
     <ClCompile Include="..\..\src\awpInterpolation.c" />
@@ -293,7 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\awpipl.h" />
-    <ClInclude Include="..\..\include\_include\awpeigenlib.h" />
     <ClInclude Include="..\..\include\_include\_awpcolor.h" />
     <ClInclude Include="..\..\include\_include\_awpdetect.h" />
     <ClInclude Include="..\..\include\_include\_awpdraw.h" />
