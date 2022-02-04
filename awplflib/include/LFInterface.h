@@ -331,3 +331,5 @@ public:
 
 // trainer 
 // todo: add trainer interface 
+
+// Create Instance Functions 

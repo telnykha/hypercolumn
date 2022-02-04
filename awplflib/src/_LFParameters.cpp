@@ -123,5 +123,10 @@ ILFParameter* _TLFParameters::Parameter(const char* value)
 	return NULL;
 }
 
+void _TLFParameters::AddParameter(const char* name, const char* value, const char* comment)
+{
+	_TLFParameter* p = new _TLFParameter(name, comment, value);
+	m_list.Add(p);
+}
 
 

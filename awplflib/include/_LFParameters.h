@@ -78,4 +78,6 @@ public:
 	virtual int Count();
 	virtual ILFParameter* Parameter(unsigned int index);
 	virtual ILFParameter* Parameter(const char* value);
+	void AddParameter(const char* name, const char* value, const char* comment);
+
 };
