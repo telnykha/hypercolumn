@@ -280,6 +280,7 @@
     <ClCompile Include="..\..\src\LFWeakImpl.cpp" />
     <ClCompile Include="..\..\src\LFZones.cpp" />
     <ClCompile Include="..\..\src\_LFMediaSource.cpp" />
+    <ClCompile Include="..\..\src\_LFParameters.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\LF.h" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\..\include\LFWeak.h" />
     <ClInclude Include="..\..\include\LFZone.h" />
     <ClInclude Include="..\..\include\_LF.h" />
+    <ClInclude Include="..\..\include\_LFParameters.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

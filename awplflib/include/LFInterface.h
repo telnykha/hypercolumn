@@ -70,6 +70,32 @@ public:
 	virtual int channels() = 0;
 };
 
+typedef void* ILFStorage;
+
+// paremeters
+class ILFParameter
+{
+public:
+	virtual const char* name() = 0;
+	virtual const char* comment() = 0;
+
+	virtual const char* value() = 0;
+	virtual const double doubleValue() = 0;
+	virtual const double intValue() = 0;
+
+	virtual void setValue(const char* value) = 0;
+	virtual void setDouble(const double value) = 0;
+	virtual void setInt(const int value) = 0;
+};
+
+class ILFParameters
+{
+public:
+	virtual int Count() = 0;
+	virtual ILFParameter* Parameter(unsigned int index) = 0;
+	virtual ILFParameter* Parameter(const char* name) = 0;
+};
+
 typedef void(*OnMediaNewFrame)(int Frame, ILFImage* img);
 
 class ILFMediaSource
@@ -291,13 +317,12 @@ class ILFModel
 {
 public:
 	virtual ILFDictinary*	Dictinary() = 0;
-	virtual ILFDescriptor* Descriptor() = 0;
+	virtual ILFDescriptor*  Descriptor() = 0;
+	virtual ILFParameters* Parameters() = 0;
 
 	virtual bool Load(const char* fileName) = 0;
 	virtual bool Forward(ILFImage* image) = 0; 
 	virtual bool Update(const char* db) = 0;
-
-
 };
 
 
@@ -306,6 +331,3 @@ public:
 
 // trainer 
 // todo: add trainer interface 
-
-// paremeters
-// todo: add paraeters interface 
