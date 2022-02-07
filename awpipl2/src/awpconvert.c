@@ -598,8 +598,8 @@ AWPRESULT awpBackProjection2D(awpImage* Image, awpImage** ppProb, awpImage* pPre
        s = cPix[i].bGreen;
        v = cPix[i].bBlue;
        if (v >= min_v && v <= max_v)
-//		   bPix[i] = (AWPBYTE)(255*(1-(max_preset - dblPresetPix[s * 256 + h]) / (max_preset - min_preset)));
-		   bPix[i] = (AWPBYTE)(255*dblPresetPix[s * 256 + h]/max_preset);//(1-(max_preset - dblPresetPix[s * 256 + h]) / (max_preset - min_preset)));
+	       bPix[i] = (AWPBYTE)(255*((max_preset - dblPresetPix[s * 256 + h]) / (max_preset - min_preset)));
+		//   bPix[i] = (AWPBYTE)(255*dblPresetPix[s * 256 + h]/max_preset);//(1-(max_preset - dblPresetPix[s * 256 + h]) / (max_preset - min_preset)));
 	   else
            bPix[i] = 0;
     }

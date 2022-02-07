@@ -101,7 +101,7 @@ void Help(int argc, char **argv)
 	printf("--crop -i filename -o outfile -p left:top:right:bottom\n");
 	printf("--filter -p mode [mode = b,bm,s,sm,se,fe,fe1,en,eno,eo,eso,es,esw,ew,enw,pv,ph,sv,sh] -i filename -o outfile\n");
 	printf("--integral -i filename -o outfile -f mode [mode = integral, integral2] -p option [option = linear, square, rlinear, rsquare]\n");
-	printf("--makeBinary -i filename -o outfile -f mode [binary, inv_binary] -p threshold:min:max:left:top:right:bottom\n");
+	printf("--makebinary -i filename -o outfile -f mode [binary, inv_binary] -p threshold:min:max:left:top:right:bottom\n");
 	printf("--median -i filename -o outfile -p radius\n");
 	printf("--gauss -i filename -o outfile -p sigma\n");
 	printf("--contrast -i filename -o outfile -p mode [mode = a - autolevels, h - histogramm equalize]\n");
@@ -109,7 +109,8 @@ void Help(int argc, char **argv)
 	printf("--convert -i filename -o outfile -p mode [mode = to_b, to_bwn, to_s, to_f, to_d, 3to1_b]\n");
 	printf("--draw -i filename -o outfile -f mode [mode = line,rect,point,cross,ellipse] -p x1:x2:y1:y2:r:g:b:rd \n");
 	printf("--blob -p draw_cp:draw_contour:draw_rect:draw_axis:draw_ellipce -i filename -o outfile\n");
-	printf("--bacrproject \n");
+	printf("--histogramm -i filename -o outfile -p low:up\n");
+	printf("--backproject -i filename -i1 filename2 -o outfile -p min:max\n");
 }
 void Blob(int argc, char** argv)
 {
@@ -198,6 +199,80 @@ void Blob(int argc, char** argv)
 	_AWP_SAFE_RELEASE_(dst);
 	awpFreeContour(&c);
 	awpFreeStrokes(num, &strokes);
+}
+void Histogramm(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* imgo = NULL;
+	awpImage* hsv = NULL;
+	int k, res, low, up;
+	__GET_IDX__
+		k = sscanf(argv[idx2], "%i:%i", &low, &up);
+		if (k != 2)
+		{
+			printf("invalid histogramm params = %s\n", argv[idx2]);
+			exit(-1);
+		}
+	img = __LoadImage(argv[idx0]);
+	awpCopyImage(img, &imgo);
+	awpResize(imgo, 256, 256);
+	awpConvert(imgo, AWP_CONVERT_3TO1_BYTE);
+	if (awpCreateImage(&hsv, img->sSizeX, img->sSizeY, 3, AWP_BYTE) != AWP_OK)
+	{
+		_AWP_SAFE_RELEASE_(img)
+			printf("cannot create image.\n");
+			exit(-1);
+	}
+	awpRGBtoHSVImage(img, &hsv);
+	res = awpGet2DHistogramm(hsv, imgo, low, up, TRUE);
+	CHECK_RESULT
+
+		img = imgo;
+	__SaveImage(argv[idx1], img);
+	_AWP_SAFE_RELEASE_(img);
+	_AWP_SAFE_RELEASE_(hsv);
+
+		
+}
+void Backproject(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* pPreset = NULL;
+	awpImage* ppProb = NULL;
+	awpImage* hsv0 = NULL;
+	int k, res, min, max;
+	int idx3 = InputKey(argc, argv, "-i1");
+	__GET_IDX__
+		k = sscanf(argv[idx2], "%i:%i", &min, &max);
+		if (k != 2)
+		{
+			printf("invalid backproject params = %s\n", argv[idx2]);
+			exit(-1);
+		}
+	//"--backproject -i filename -i1 filename2 -o outfile -p min:max"
+	
+	img = __LoadImage(argv[idx0]);
+	pPreset = __LoadImage(argv[idx3]);
+	awpCopyImage(img, &ppProb);
+	if (pPreset->dwType != AWP_DOUBLE || pPreset->bChannels != 1
+		&& pPreset->sSizeX != 256 || pPreset->sSizeY != 256)
+	{
+		awpConvert(pPreset, AWP_CONVERT_3TO1_BYTE);
+		awpResize(pPreset, 256, 256);
+		awpConvert(pPreset, AWP_CONVERT_TO_DOUBLE);
+	}
+
+	awpRGBtoHSVImage(img, &hsv0);
+	res = awpBackProjection2D(hsv0, &ppProb, pPreset, min, max);
+	CHECK_RESULT
+
+		//img = ppProb;
+	//int idx0 = InputKey(argc, argv, "-i"); 
+	//int idx1 = InputKey(argc, argv, "-o"); 
+	//int idx2 = InputKey(argc, argv, "-p"); 
+	__SaveImage(argv[idx1], ppProb);
+	_AWP_SAFE_RELEASE_(ppProb);
+	_AWP_SAFE_RELEASE_(img);
+	_AWP_SAFE_RELEASE_(pPreset);
+	_AWP_SAFE_RELEASE_(hsv0);
 }
 void Convert(int argc, char** argv) {
 	awpImage* img = NULL;
@@ -1051,7 +1126,7 @@ int main (int argc, char **argv)
    {
 	   Integral(argc, argv);
    }
-   else if (strcmp(arg1, "--makeBinary") == 0)
+   else if (strcmp(arg1, "--makebinary") == 0)
    {
 	   makeBinary(argc, argv);
    }
@@ -1076,9 +1151,13 @@ int main (int argc, char **argv)
    {
 	   // object detection 
    }
+   else if (strcmp(arg1, "--histogramm") == 0)
+   {
+	   Histogramm(argc, argv);
+   }
    else if (strcmp(arg1, "--backproject") == 0)
    {
-	   // 
+	   Backproject(argc, argv);
    }
    else if (strcmp(arg1, "--camera") == 0)
    {
