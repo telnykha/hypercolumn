@@ -74,3 +74,8 @@ test/awpipl_test/test_awpipl/Debug
 test/awpipl_test/test_awpipl/Release
 test/awpipl_test/test_awpipl/x64/Debug
 test/awpipl_test/test_awpipl/x64/Release
+*.sbr
+*.log
+*.idb
+*.recipe
+*.tlog
