@@ -3,3 +3,4 @@ project(HyperColumn)
 
 add_subdirectory(awpipl2)
 add_subdirectory(awplflib)
+add_subdirectory(FVLCore)
