@@ -92,6 +92,7 @@ void Help(int argc, char **argv)
 {
 	printf("--help \n");
 	printf("--info -i filename\n");
+	printf("--getchannel -i filename -o outfile -p channels\n");
 	printf("--flip -i filename -o outfile -p mode [mode = r - right, l - left, v - vertical, h - horizontal]\n");
 	printf("--resize -i filename -o outfile -p width:height:mode [mode = r - fast, b - bilinear, n - not in place]\n");
 	printf("--rescale -i filename -o outfile -p Rescale_width:Rescale_height\n");
@@ -100,11 +101,12 @@ void Help(int argc, char **argv)
 	printf("--calc -i filename -i1 - filename2 -p mode [mode = and,or,xor,add,sub,mlt,div,min,max,avg] -o outfile \n");
 	printf("--crop -i filename -o outfile -p left:top:right:bottom\n");
 	printf("--filter -p mode [mode = b,bm,s,sm,se,fe,fe1,en,eno,eo,eso,es,esw,ew,enw,pv,ph,sv,sh] -i filename -o outfile\n");
+	printf("--sobel -i filename -i1 filename -o outfile\n");
 	printf("--integral -i filename -o outfile -f mode [mode = integral, integral2] -p option [option = linear, square, rlinear, rsquare]\n");
 	printf("--makebinary -i filename -o outfile -f mode [binary, inv_binary] -p threshold:min:max:left:top:right:bottom\n");
 	printf("--median -i filename -o outfile -p radius\n");
 	printf("--gauss -i filename -o outfile -p sigma\n");
-	printf("--contrast -i filename -o outfile -p mode [mode = a - autolevels, h - histogramm equalize]\n");
+	printf("--contrast -i filename -i1 filename -o outfile -p mode [mode = a - autolevels, h - histogramm equalize]\n");
 	printf("--stat -i namefile\n");
 	printf("--convert -i filename -o outfile -p mode [mode = to_b, to_bwn, to_s, to_f, to_d, 3to1_b]\n");
 	printf("--draw -i filename -o outfile -f mode [mode = line,rect,point,cross,ellipse] -p x1:x2:y1:y2:r:g:b:rd \n");
@@ -247,7 +249,6 @@ void Backproject(int argc, char** argv) {
 			printf("invalid backproject params = %s\n", argv[idx2]);
 			exit(-1);
 		}
-	//"--backproject -i filename -i1 filename2 -o outfile -p min:max"
 	
 	img = __LoadImage(argv[idx0]);
 	pPreset = __LoadImage(argv[idx3]);
@@ -264,21 +265,41 @@ void Backproject(int argc, char** argv) {
 	res = awpBackProjection2D(hsv0, &ppProb, pPreset, min, max);
 	CHECK_RESULT
 
-		//img = ppProb;
-	//int idx0 = InputKey(argc, argv, "-i"); 
-	//int idx1 = InputKey(argc, argv, "-o"); 
-	//int idx2 = InputKey(argc, argv, "-p"); 
 	__SaveImage(argv[idx1], ppProb);
 	_AWP_SAFE_RELEASE_(ppProb);
 	_AWP_SAFE_RELEASE_(img);
 	_AWP_SAFE_RELEASE_(pPreset);
 	_AWP_SAFE_RELEASE_(hsv0);
 }
+void Sobel(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* pGradAmpl = NULL;
+	awpImage* pGradDir = NULL;
+	int idx0 = InputKey(argc, argv, "-i");
+	int idx1 = InputKey(argc, argv, "-o");
+	int idx2 = InputKey(argc, argv, "-i1");
+
+	img = __LoadImage(argv[idx0]);
+	pGradDir = __LoadImage(argv[idx2]);
+	awpCopyImage(img, &pGradAmpl);
+		/*if (strcmp(argv[idx2], "notNULL") == 0) {
+			awpCopyImage(img, &pGradAmpl);
+		}
+		else if (strcmp(argv[idx2], "NULL") == 0) {
+			pGradAmpl = NULL;
+		}*/
+
+	awpEdgeSobel(img, pGradAmpl, pGradDir);
+
+	__SaveImage(argv[idx1], pGradAmpl);
+	_AWP_SAFE_RELEASE_(img)
+	_AWP_SAFE_RELEASE_(pGradDir)
+
+}
 void Convert(int argc, char** argv) {
 	awpImage* img = NULL;
 	__GET_IDX__
 	
-		//to_b, to_bwn, to_s, to_f, to_d, 3to1_b
 		img = __LoadImage(argv[idx0]);
 	if (strcmp(argv[idx2], "to_b") == 0) {
 		awpConvert(img, AWP_CONVERT_TO_BYTE);
@@ -557,7 +578,7 @@ void Draw(int argc, char** argv) {
 	}*/
 
 	else {
-			printf("unknown draw option %s\n", argv[idx2]);
+			printf("unknown draw option %s\n", argv[idx3]);
 			exit(-1);}
 
 			
@@ -645,6 +666,19 @@ void Info(int argc, char **argv)
 		printf("cannot open file.\n");
 	}
 	_AWP_SAFE_RELEASE_(img);
+}
+void getChannel(int argc, char** argv) {
+	awpImage* img = NULL;
+	awpImage* imgo = NULL;
+	int res, channels, k;
+	__GET_IDX__
+		k = sscanf(argv[idx2], "%i", &channels);
+		img = __LoadImage(argv[idx0]);
+		//imgo = __LoadImage(argv[idx1]);
+	res = awpGetChannel(img, &imgo, channels);
+	__SaveImage(argv[idx1], imgo);
+	_AWP_SAFE_RELEASE_(img);
+
 }
 void Stat(int argc, char** argv) {
 	int idx = InputKey(argc, argv, "-i");
@@ -1078,6 +1112,10 @@ int main (int argc, char **argv)
    {
 	   Info(argc, argv);
    }
+   else if (strcmp(arg1, "--getchannel") == 0)
+   {
+	   getChannel(argc, argv);
+   }
    else if (strcmp(arg1, "--flip") == 0)
    {
 	   Flip(argc, argv);
@@ -1125,6 +1163,10 @@ int main (int argc, char **argv)
    else if (strcmp(arg1, "--integral") == 0)
    {
 	   Integral(argc, argv);
+   }
+   else if (strcmp(arg1, "--sobel") == 0)
+   {
+	   Sobel(argc, argv);
    }
    else if (strcmp(arg1, "--makebinary") == 0)
    {
