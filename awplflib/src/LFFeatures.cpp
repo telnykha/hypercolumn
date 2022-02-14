@@ -74,9 +74,9 @@ double            TLFAFeature::fCalcValue(TLFImage* pImage)
 		return 0;
 	else
 	{
-		double s = (double)m_w*m_h;
+		double s = 1./(double)m_w*m_h;
 		double v = pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h);
-		m_fValue = v /s;
+		m_fValue = v*s;
 		return m_fValue;
 
     }
@@ -247,41 +247,6 @@ awpRect TLFHFeature::GetRect()
 	result.bottom = result.top + 2 * this->m_hBase;
 	return result;
 }
-TLFHAFeature::TLFHAFeature() : TLFHFeature()
-{
-
-}
-TLFHAFeature::TLFHAFeature(ILFFeature* feature) : TLFHFeature(feature)
-{
-
-}
-TLFHAFeature::TLFHAFeature(int sxbase, int sybase, int wbase, int hbase) : TLFHFeature(sxbase, sybase, wbase, hbase)
-{
-
-}
-
-unsigned int      TLFHAFeature::uCalcValue(TLFImage* pImage)
-{
-	m_uValue = (unsigned int)(255 + fCalcValue(pImage));
-	return m_uValue;
-}
-double            TLFHAFeature::fCalcValue(TLFImage* pImage)
-{
-	if (pImage == NULL)
-	{
-		m_fValue = 0;
-		return m_fValue;
-	}
-	else
-	{
-		double s, v1, v2;
-		s = m_w*m_h;
-		v1 = pImage->CalcLnSum(m_sx, m_sy, m_w, m_h) / s;
-		v2 = pImage->CalcLnSum(m_sx, m_sy + m_h, m_w, m_h) / s;
-		m_fValue = v1 - v2;
-		return  m_fValue;
-	}
-}
 /*
 	V - feature
 */
@@ -343,36 +308,6 @@ awpRect TLFVFeature::GetRect()
 	return result;
 }
 
-TLFVAFeature::TLFVAFeature() : TLFVFeature()
-{}
-TLFVAFeature::TLFVAFeature(ILFFeature* feature) : TLFVFeature(feature)
-{}
-TLFVAFeature::TLFVAFeature(int sxbase, int sybase, int wbase, int hbase) : TLFVFeature( sxbase,  sybase,  wbase,  hbase)
-{}
-
-
-unsigned int      TLFVAFeature::uCalcValue(TLFImage* pImage)
-{
-	m_uValue = (unsigned int)(255 + fCalcValue(pImage));
-	return m_uValue;
-}
-double            TLFVAFeature::fCalcValue(TLFImage* pImage)
-{
-	if (pImage == NULL)
-	{
-		m_fValue = 0;
-		return m_fValue;
-	}
-	else
-	{
-		double s, v1, v2;
-		s =m_w*m_h;
-		v1 = pImage->CalcLnSum(m_sx, m_sy, m_w, m_h) / s;
-		v2 = pImage->CalcLnSum(m_sx + m_w, m_sy, m_w, m_h) / s;
-		m_fValue = v1 - v2;
-		return  m_fValue;
-	}
-}
 
 /*
 	D - feature
@@ -435,37 +370,6 @@ awpRect TLFDFeature::GetRect()
 	return result;
 }
 
-TLFDAFeature::TLFDAFeature() : TLFDFeature()
-{}
-TLFDAFeature::TLFDAFeature(ILFFeature* feature) : TLFDFeature(feature)
-{}
-TLFDAFeature::TLFDAFeature(int sxbase, int sybase, int wbase, int hbase) : TLFDFeature(sxbase, sybase, wbase, hbase)
-{}
-
-unsigned int      TLFDAFeature::uCalcValue(TLFImage* pImage)
-{
-	m_uValue = (unsigned int)(255 + fCalcValue(pImage));
-	return m_uValue;
-}
-double            TLFDAFeature::fCalcValue(TLFImage* pImage)
-{
-	if (pImage == NULL)
-	{
-		m_fValue = 0;
-		return m_fValue;
-	}
-	else
-	{
-		double s, v1, v2, v3, v4;
-		s = m_w*m_h;
-		v1 = pImage->CalcLnSum(m_sx, m_sy, m_w, m_h) / s;
-		v2 = pImage->CalcLnSum(m_sx + m_w, m_sy, m_w, m_h) / s;
-		v3 = pImage->CalcLnSum(m_sx, m_sy + m_h, m_w, m_h) / s;
-		v4 = pImage->CalcLnSum(m_sx + m_w, m_sy + m_h, m_w, m_h) / s;
-		m_fValue =  (v1 + v4 - v2 - v3);
-		return m_fValue;
-	}
-}
 /*
 	C - feature
 */
@@ -540,46 +444,6 @@ awpRect TLFCFeature::GetRect()
 	return result;
 }
 
-TLFCAFeature::TLFCAFeature() : TLFCFeature()
-{
-}
-TLFCAFeature::TLFCAFeature(ILFFeature* feature) : TLFCFeature(feature)
-{}
-TLFCAFeature::TLFCAFeature(int sxbase, int sybase, int wbase, int hbase) : TLFCFeature(sxbase, sybase,wbase,hbase)
-{}
-
-unsigned int      TLFCAFeature::uCalcValue(TLFImage* pImage)
-{
-	m_uValue = (unsigned int)(2048 + fCalcValue(pImage)) / 8;
-	return  m_uValue;
-}
-double            TLFCAFeature::fCalcValue(TLFImage* pImage)
-{
-	if (pImage == NULL)
-	{
-		m_fValue = 0;
-		return m_fValue;
-	}
-	else
-	{
-		double s, v1, v2, v3, v4, v5, v6, v7, v8, v9;
-		s = m_w*m_h;
-
-		v1 = pImage->CalcLnSum(m_sx, m_sy, m_w, m_h) / s;
-		v2 = pImage->CalcLnSum(m_sx + m_w, m_sy, m_w, m_h) / s;
-		v3 = pImage->CalcLnSum(m_sx + 2 * m_w, m_sy, m_w, m_h) / s;
-
-		v4 = pImage->CalcLnSum(m_sx, m_sy + m_h, m_w, m_h) / s;
-		v5 = pImage->CalcLnSum(m_sx + m_w, m_sy + m_h, m_w, m_h) / s;
-		v6 = pImage->CalcLnSum(m_sx + 2 * m_w, m_sy + m_h, m_w, m_h) / s;
-
-		v7 = pImage->CalcLnSum(m_sx, m_sy + 2 * m_h, m_w, m_h) / s;
-		v8 = pImage->CalcLnSum(m_sx +m_w, m_sy + 2 * m_h, m_w, m_h) / s;
-		v9 = pImage->CalcLnSum(m_sx + 2 * m_w, m_sy + 2 * m_h, m_w, m_h) / s;
-		m_fValue = (8 * v5 - v1 - v2 - v3 - v4 - v6 - v7 - v8 - v9);
-		return m_fValue;
-	}
-}
 /*
 	LBP - feature
 */
@@ -668,55 +532,6 @@ awpRect TLFLBPFeature::GetRect()
 	result.bottom = result.top + 3 * this->m_hBase;
 	return result;
 }
-/*
-	Color sensor
-*/
-TLFColorSensor::TLFColorSensor(AWPWORD sx, AWPWORD sy, AWPWORD xbase, AWPWORD ybase) :ILFFeature()
-{
-	m_sxBase = sx;
-	m_syBase = sy;
-	m_wBase = xbase;
-	m_hBase = ybase;
-}
-TLFColorSensor::TLFColorSensor() : ILFFeature()
-{
-
-}
-TLFColorSensor::TLFColorSensor(TLFColorSensor* sensor) : ILFFeature(sensor)
-{
-
-}
-/*
-	calc features value
-	returns 24 bit unsigned integer
-*/
-unsigned int     TLFColorSensor::uCalcValue(TLFImage* pImage)
-{
-	if (pImage == NULL || pImage->GetBlueIntegral() == NULL ||
-		pImage->GetGreenIntegral() == NULL ||
-		pImage->GetRedIntegral() == NULL)
-		return 0;
-
-	unsigned int code = 0;
-
-	double s = m_w*m_h;
-
-	AWPBYTE rvalue = (AWPBYTE)floor(pImage->CalcRLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s + 0.5);
-	AWPBYTE gvalue = (AWPBYTE)floor(pImage->CalcGLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s + 0.5);
-	AWPBYTE bvalue = (AWPBYTE)floor(pImage->CalcBLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s + 0.5);
-
-	code = rvalue;
-	code = code << 8;
-	code |= gvalue;
-	code = code << 8;
-	code |= bvalue;
-
-	return code;
-}
-double TLFColorSensor::fCalcValue(TLFImage* pImage)
-{
-	return (double)uCalcValue(pImage);
-}
 
 TLFColorSensor9Bit::TLFColorSensor9Bit() : ILFFeature()
 {
@@ -733,8 +548,8 @@ TLFColorSensor9Bit::TLFColorSensor9Bit(AWPWORD sx, AWPWORD sy, AWPWORD xbase, AW
 	m_syBase = sy;
 	m_wBase = xbase;
 	m_hBase = ybase;
-	this->m_w = m_wBase;
-    this->m_h = m_hBase;
+	m_w = m_wBase;
+    m_h = m_hBase;
 }
 /*
 calc features value
@@ -746,21 +561,17 @@ unsigned int      TLFColorSensor9Bit::uCalcValue(TLFImage* pImage)
 		pImage->GetRedIntegral() == NULL)
 		return 0;
 
-	unsigned int code = 0;
-	double s = m_w*m_h;
+	unsigned int code = 0.;
+	double s = 1/ (double)(m_w*m_h);
+	double coef = 1 / 32.;
 
-	//double rvalue = pImage->CalcRLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s;
-	//double gvalue = pImage->CalcGLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s;
-	//double bvalue = pImage->CalcBLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s;
+	double rvalue =pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) * s;
+	double gvalue = pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) * s;
+	double bvalue = pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) * s;
 
-
-	double rvalue =pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s;
-	double gvalue = pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s;
-	double bvalue = pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h) / s;
-
-	unsigned int sr = (unsigned int)(rvalue / 32.);
-	unsigned int sg = (unsigned int)(gvalue / 32.);
-	unsigned int sb = (unsigned int)(bvalue / 32.);
+	unsigned int sr = (unsigned int)(rvalue *coef );
+	unsigned int sg = (unsigned int)(gvalue *coef );
+	unsigned int sb = (unsigned int)(bvalue *coef );
 	unsigned int result = 0;
 
 	result |= sr;
@@ -924,11 +735,6 @@ ILFFeature*  LFCreateFeature(ILFFeature* feature)
 		return NULL;
 	const char* name = feature->GetName();
 
-	if (strcmp(name, "TLFColorSensor") == 0)
-	{
-		TLFColorSensor* cw = dynamic_cast<TLFColorSensor*>(feature);
-		return new TLFColorSensor(cw);
-	}
 	if (strcmp(name, "TLFColorSensor9Bit") == 0)
 	{
 		TLFColorSensor9Bit* cw = dynamic_cast<TLFColorSensor9Bit*>(feature);
@@ -938,16 +744,6 @@ ILFFeature*  LFCreateFeature(ILFFeature* feature)
 	{
 		TCSSensor* cw = dynamic_cast<TCSSensor*>(feature);
 		return new TCSSensor(cw);
-	}
-	else if (strcmp(name, "TLFAvgFeature") == 0)
-	{
-		TLFAvgFeature* cw = dynamic_cast<TLFAvgFeature*>(feature);
-		return new TLFAvgFeature(cw);
-	}
-	else if (strcmp(name, "TLFSigmaFeature") == 0)
-	{
-		TLFSigmaFeature* cw = dynamic_cast<TLFSigmaFeature*>(feature);
-		return new TLFSigmaFeature(cw);
 	}
 	else if (strcmp(name, "TLFAFeature") == 0)
 	{
@@ -964,40 +760,20 @@ ILFFeature*  LFCreateFeature(ILFFeature* feature)
 		TLFHFeature* cw = dynamic_cast<TLFHFeature*>(feature);
 		return new TLFHFeature(cw);
 	}
-	else if (strcmp(name, "TLFHAFeature") == 0)
-	{
-		TLFHAFeature* cw = dynamic_cast<TLFHAFeature*>(feature);
-		return new TLFHAFeature(cw);
-	}
 	else if (strcmp(name, "TLFVFeature") == 0)
 	{
 		TLFVFeature* cw = dynamic_cast<TLFVFeature*>(feature);
 		return new TLFVFeature(cw);
-	}
-	else if (strcmp(name, "TLFVAFeature") == 0)
-	{
-		TLFVAFeature* cw = dynamic_cast<TLFVAFeature*>(feature);
-		return new TLFVAFeature(cw);
 	}
 	else if (strcmp(name, "TLFDFeature") == 0)
 	{
 		TLFDFeature* cw = dynamic_cast<TLFDFeature*>(feature);
 		return new TLFDFeature(cw);
 	}
-	else if (strcmp(name, "TLFDAFeature") == 0)
-	{
-		TLFDAFeature* cw = dynamic_cast<TLFDAFeature*>(feature);
-		return new TLFDAFeature(cw);
-	}
 	else if (strcmp(name, "TLFCFeature") == 0)
 	{
 		TLFCFeature* cw = dynamic_cast<TLFCFeature*>(feature);
 		return new TLFCFeature(cw);
-	}
-	else if (strcmp(name, "TLFCAFeature") == 0)
-	{
-		TLFCAFeature* cw = dynamic_cast<TLFCAFeature*>(feature);
-		return new TLFCAFeature(cw);
 	}
 	else if (strcmp(name, "TLFLBPFeature") == 0)
 	{
@@ -1010,14 +786,6 @@ ILFFeature*  LFCreateFeature(ILFFeature* feature)
 
 ILFFeature* LFCreateFeature(const char* lpName, int sx, int sy, int w, int h)
 {
-	if (strcmp(lpName, "TLFColorSensor") == 0)
-	{
-		return new TLFColorSensor(sx,sy,w,h);
-	}
-	if (strcmp(lpName, "TLFColorSensor9Bit") == 0)
-	{
-		return new TLFColorSensor9Bit(sx,sy,w,h);
-	}
 	if (strcmp(lpName, "TLFColorSensor9Bit") == 0)
 	{
 		return new TLFColorSensor9Bit(sx,sy,w,h);
@@ -1025,14 +793,6 @@ ILFFeature* LFCreateFeature(const char* lpName, int sx, int sy, int w, int h)
 	else if (strcmp(lpName, "CSFeature") == 0)
 	{
 		return new TCSSensor(sx,sy,w,h);
-	}
-	else if (strcmp(lpName, "TLFAvgFeature") == 0)
-	{
-		return new TLFAvgFeature(sx,sy,w,h);
-	}
-	else if (strcmp(lpName, "TLFSigmaFeature") == 0)
-	{
-		return new TLFSigmaFeature(sx, sy, w, h);
 	}
 	else if (strcmp(lpName, "TLFAFeature") == 0)
 	{
@@ -1046,33 +806,17 @@ ILFFeature* LFCreateFeature(const char* lpName, int sx, int sy, int w, int h)
 	{
 		return new TLFHFeature(sx, sy, w, h);
 	}
-	else if (strcmp(lpName, "TLFHAFeature") == 0)
-	{
-		return new TLFHAFeature(sx, sy, w, h);
-	}
 	else if (strcmp(lpName, "TLFVFeature") == 0)
 	{
 		return new TLFVFeature(sx, sy, w, h);
-	}
-	else if (strcmp(lpName, "TLFVAFeature") == 0)
-	{
-		return new TLFVAFeature(sx, sy, w, h);
 	}
 	else if (strcmp(lpName, "TLFDFeature") == 0)
 	{
 		return new TLFDFeature(sx, sy, w, h);
 	}
-	else if (strcmp(lpName, "TLFDAFeature") == 0)
-	{
-		return new TLFDAFeature(sx, sy, w, h);
-	}
 	else if (strcmp(lpName, "TLFCFeature") == 0)
 	{
 		return new TLFCFeature(sx, sy, w, h);
-	}
-	else if (strcmp(lpName, "TLFCAFeature") == 0)
-	{
-		return new TLFCAFeature(sx, sy, w, h);
 	}
 	else if (strcmp(lpName, "TLFLBPFeature") == 0)
 	{
@@ -1188,15 +932,9 @@ TLFFeatureList::TLFFeatureList()
 	int w = 8;
 	int h = 8;
 	ILFFeature* f = NULL;
-	f = LFCreateFeature("TLFColorSensor", sx,sy,w,h);
-	Add(f);
 	f = LFCreateFeature("TLFColorSensor9Bit", sx, sy, w, h);
 	Add(f);
 	f = LFCreateFeature("CSFeature", sx, sy, w, h);
-	Add(f);
-	f = LFCreateFeature("TLFAvgFeature", sx, sy, w, h);
-	Add(f);
-	f = LFCreateFeature("TLFSigmaFeature", sx, sy, w, h);
 	Add(f);
 	f = LFCreateFeature("TLFAFeature", sx, sy, w, h);
 	Add(f);
@@ -1204,19 +942,11 @@ TLFFeatureList::TLFFeatureList()
 	Add(f);
 	f = LFCreateFeature("TLFHFeature", sx, sy, w, h);
 	Add(f);
-	f = LFCreateFeature("TLFHAFeature", sx, sy, w, h);
-	Add(f);
 	f = LFCreateFeature("TLFVFeature", sx, sy, w, h);
-	Add(f);
-	f = LFCreateFeature("TLFVAFeature", sx, sy, w, h);
 	Add(f);
 	f = LFCreateFeature("TLFDFeature", sx, sy, w, h);
 	Add(f);
-	f = LFCreateFeature("TLFDAFeature", sx, sy, w, h);
-	Add(f);
 	f = LFCreateFeature("TLFCFeature", sx, sy, w, h);
-	Add(f);
-	f = LFCreateFeature("TLFCAFeature", sx, sy, w, h);
 	Add(f);
 	f = LFCreateFeature("TLFLBPFeature", sx, sy, w, h);
 	Add(f);

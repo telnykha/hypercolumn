@@ -49,33 +49,6 @@
 *	Implementations of the weak classifiers in the Locate Framework
 *   @{
 */
-class TLFColorWeak : public ILFWeak
-{
-protected:
-	int			m_count;
-	int			m_hst_count;
-	int			m_tmp_count;
-	double		m_hst[9];
-	double		m_tmp_hst[9];
-	double		m_time_sens;
-	double		m_sens;
-    AWPDWORD	m_st;
-    AWPDWORD	m_t;
-	int			m_result;
-	double      CompareX2();
-public:
-	TLFColorWeak();
-	TLFColorWeak(double sens, double time_sens, AWPWORD sx, AWPWORD sy, AWPWORD wbase, AWPWORD hbase);
-	TLFColorWeak(TLFColorWeak* weak);
-	virtual int Classify(TLFImage* pImage, double* value = NULL);
-	virtual void SaveXML(TiXmlElement* parent);
-	virtual bool LoadXML(TiXmlElement* parent);
-	void Clear();
-	virtual const char* GetName()
-	{
-		return "TLFColorWeak";
-	}
-};
 
 //---------------------------------------------------------------------------
 // weak classifier based on  Census Transform

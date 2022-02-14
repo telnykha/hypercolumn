@@ -36,11 +36,11 @@ double           TLFAvgFeature::fCalcValue(TLFImage* pImage)
 	if (pImage == NULL || pImage->GetIntegralImage() == NULL)
 		return -1;
 	this->m_CalcCount++;
-	double s = m_w*m_h;
+	double s = double(m_w*m_h);
 	double value = pImage->CalcLnSum(this->m_sx, this->m_sy, this->m_w, this->m_h);
 	value /= s;
 	value /= 255;
-	int num = this->m_CalcCount >= FEATURE_AVG_SIZE ? FEATURE_AVG_SIZE : this->m_CalcCount;
+	int num = m_CalcCount >= FEATURE_AVG_SIZE ? FEATURE_AVG_SIZE : this->m_CalcCount;
 	double avg = 0;
 	for (int i = 0; i < num - 1; i++)
 	{

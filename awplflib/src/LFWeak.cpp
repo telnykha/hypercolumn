@@ -682,146 +682,6 @@ bool TIEFSWeak2::LoadXML(TiXmlElement* e)
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-TLFColorWeak
-*/
-TLFColorWeak::TLFColorWeak() : ILFWeak()
-{
-	this->m_pFeature = new TLFColorSensor(0,0,1,1);
-	m_count = 0;
-	m_tmp_count = 0;
-	m_sens = 0.5;
-	m_result = 0;
-	m_st = 0;
-	m_t = 0;
-	m_hst_count = 0;
-	m_time_sens = 1000;
-	memset(this->m_hst, 0, sizeof(m_hst));
-	memset(this->m_tmp_hst, 0, sizeof(m_tmp_hst));
-}
-
-TLFColorWeak::TLFColorWeak(TLFColorWeak* weak) : ILFWeak()
-{
-	if (weak = NULL)
-		return;
-
-	this->m_count = weak->m_count;
-	this->m_tmp_count = weak->m_tmp_count;
-	this->m_sens = weak->m_sens;
-	this->m_result = weak->m_result;
-	this->m_st = weak->m_st;
-	this->m_t = weak->m_t;
-	this->m_hst_count = weak->m_hst_count;
-	this->m_time_sens = weak->m_time_sens;
-
-	memcpy(this->m_hst, weak->m_hst, sizeof(m_hst));
-	memcpy(this->m_tmp_hst, weak->m_tmp_hst, sizeof(this->m_tmp_hst));
-	this->m_pFeature = LFCreateFeature(weak->m_pFeature);
-}
-
-
-TLFColorWeak::TLFColorWeak(double sens, double time_sens, AWPWORD sx, AWPWORD sy, AWPWORD wbase, AWPWORD hbase)
-{
-	m_count = 0;
-	m_tmp_count = 0;
-	m_sens = sens;
-	m_result = 0;
-	m_st = 0;
-	m_t = 0;
-	m_hst_count = 0;
-	m_time_sens = time_sens;
-	memset(this->m_hst, 0, sizeof(m_hst));
-	memset(this->m_tmp_hst, 0, sizeof(m_tmp_hst));
-	this->m_pFeature = new TLFColorSensor(sx,sy,wbase,hbase);
-}
-double      TLFColorWeak::CompareX2()
-{
-	double result = 0;
-      AWPDWORD t = LFGetTickCount() - m_t;
-	if (t < 5 * m_time_sens)
-	{
-		for (int i = 0; i < 9; i++)
-			m_hst[i] += m_tmp_hst[i];
-		m_hst_count += m_tmp_count;
-		return result;
-	}
-
-	double norm_hst[9];
-	double norm_tmp_hst[9];
-
-	for (int i = 0; i < 9; i++)
-	{
-		norm_hst[i] = m_hst[i] / (double)m_hst_count;
-		norm_tmp_hst[i] = m_tmp_hst[i] /  (double)m_tmp_count;
-	}
-
-	for (int i = 0; i < 9; i++)
-	{
-		if (norm_hst[i] != 0 && norm_tmp_hst[i] != 0)
-			result += ((norm_hst[i] - norm_tmp_hst[i])*(norm_hst[i] - norm_tmp_hst[i])) / (norm_hst[i] + norm_tmp_hst[i]);
-	}
-	if (result <  0.5)
-	{
-//		for (int i = 0; i < 9; i++)
-//			m_hst[i] += m_tmp_hst[i];
-//		m_hst_count += m_tmp_count;
-	}
-//	memset(this->m_tmp_hst, 0, sizeof(m_tmp_hst));
-	
-
-	return result;
-}
-int TLFColorWeak::Classify(TLFImage* pImage, double* value)
-{
-	++m_count;
-	++m_tmp_count;
-
-	if (m_count == 1)
-	{
-		m_st = LFGetTickCount();
-		m_t = m_st;
-	}
-
-	unsigned int v1 = this->m_pFeature->uCalcValue(pImage);
-	
-	this->m_tmp_hst[v1]++;
-	//this->m_hst[v1]++;
-
-    AWPDWORD dt = LFGetTickCount() - m_st;
-	
-	if (dt > this->m_time_sens)
-	{
-		m_st = LFGetTickCount();
-		m_result = CompareX2() > 0.5;
-		memset(this->m_tmp_hst, 0, sizeof(m_tmp_hst));
-		m_tmp_count = 0;
-	}
-
-	return m_result;
-}
-void TLFColorWeak::SaveXML(TiXmlElement* parent)
-{
-// todo:
-}
-bool TLFColorWeak::LoadXML(TiXmlElement* parent)
-{
-	//todo:
-	return false;
-}
-
-void TLFColorWeak::Clear()
-{
-	m_count = 0;
-	m_tmp_count = 0;
-	m_result = 0;
-	m_st = 0;
-	m_t = 0;
-	m_hst_count = 0;
-	memset(this->m_hst, 0, sizeof(m_hst));
-	memset(this->m_tmp_hst, 0, sizeof(m_tmp_hst));
-
-}
 
 TLFHysteresisWeak::TLFHysteresisWeak() : ILFWeak()
 {
@@ -1393,11 +1253,7 @@ void TLFAccWeak::SetBufSize(int value)
 ILFWeak*      LFCreateWeak(const char* lpName)
 {
 	const char* name = lpName;
-	if (strcmp(name, "TLFColorWeak") == 0)
-	{
-		return new TLFColorWeak();
-	}
-	else if (strcmp(name, "TCSWeak") == 0)
+    if (strcmp(name, "TCSWeak") == 0)
 	{
 		return new TCSWeak();
 	}
@@ -1430,12 +1286,7 @@ ILFWeak*      LFCreateWeak(ILFWeak* weak)
 	if (weak == NULL)
 		return NULL;
 	const char* name = weak->GetName();
-	if (strcmp(name, "TLFColorWeak") == 0)
-	{
-		TLFColorWeak* cw = dynamic_cast<TLFColorWeak*>(weak);
-		return new TLFColorWeak(cw);
-	}
-	else if (strcmp(name, "TCSWeak") == 0)
+	if (strcmp(name, "TCSWeak") == 0)
 	{
 		TCSWeak* cs = dynamic_cast<TCSWeak*>(weak);
 		return new TCSWeak(cs);

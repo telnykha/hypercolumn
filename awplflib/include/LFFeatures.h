@@ -44,15 +44,10 @@
 //		TLFAFeature			- simply brigness feature
 //		TLFSFeature			- simply dispertion feature
 //		TLFHFeature			- horizontal gradient feature with norm
-//		TLFHAFeature		- just horizontal gradient feature
 //		TLFVFeature			- vertical gradient feature with norm
-//		TLFVAFeature        - just vertical gradient feature
 //		TLFDFeature			- diagonal gradient feature with norm
-//		TLFDAFeature        - just diagonal gradient feature
 //		TLFCFeature			- center feature with norm
-//		TLFCAFeature		- just center feature
 //		TLFLBPFeature		- 256 pin binary pattern
-//		TLFColorSensor		- color 24 bit feature
 //      TLFColorSensor9Bit  - color feature 9 bit
 //		TCSSensor			- 512 pin binary pattern (census feature)
 //
@@ -145,24 +140,6 @@ public:
 		return "TLFHFeature";
 	}
 };
-/*
-	horizontal fetature without norm
-*/
-class TLFHAFeature : public TLFHFeature
-{
-public:
-	TLFHAFeature();
-	TLFHAFeature(ILFFeature* feature);
-	TLFHAFeature(int sxbase, int sybase, int wbase, int hbase);
-
-
-	virtual unsigned int      uCalcValue(TLFImage* pImage);
-	virtual double            fCalcValue(TLFImage* pImage);
-	virtual const char* GetName()
-	{
-		return "TLFHAFeature";
-	}
-};
 
 /*
 	vertical feature 
@@ -182,24 +159,6 @@ public:
 	virtual const char* GetName()
 	{
 		return "TLFVFeature";
-	}
-};
-/*
-horizontal fetature without norm
-*/
-class TLFVAFeature : public TLFVFeature
-{
-public:
-	TLFVAFeature();
-	TLFVAFeature(ILFFeature* feature);
-	TLFVAFeature(int sxbase, int sybase, int wbase, int hbase);
-
-
-	virtual unsigned int      uCalcValue(TLFImage* pImage);
-	virtual double            fCalcValue(TLFImage* pImage);
-	virtual const char* GetName()
-	{
-		return "TLFVAFeature";
 	}
 };
 /*
@@ -223,24 +182,6 @@ public:
 	}
 };
 
-/*
-	Diagonal feature without norm
-*/
-class TLFDAFeature : public TLFDFeature
-{
-public:
-	TLFDAFeature();
-	TLFDAFeature(ILFFeature* feature);
-	TLFDAFeature(int sxbase, int sybase, int wbase, int hbase);
-
-	virtual unsigned int      uCalcValue(TLFImage* pImage);
-	virtual double            fCalcValue(TLFImage* pImage);
-
-		virtual const char* GetName()
-	{
-		return "TLFDAFeature";
-	}
-};
 
 /*
 	Center frature 
@@ -263,21 +204,6 @@ public:
 	}
 };
 
-class TLFCAFeature : public TLFCFeature
-{
-public:
-	TLFCAFeature();
-	TLFCAFeature(ILFFeature* feature);
-	TLFCAFeature(int sxbase, int sybase, int wbase, int hbase);
-
-	virtual unsigned int      uCalcValue(TLFImage* pImage);
-	virtual double            fCalcValue(TLFImage* pImage);
-
-	virtual const char* GetName()
-	{
-		return "TLFCAFeature";
-	}
-};
 
 /*
 	Local Binary Pattern (LBP) feature 
@@ -303,23 +229,6 @@ public:
 };
 
 
-class TLFColorSensor : public ILFFeature
-{
-public:
-	TLFColorSensor();
-	TLFColorSensor(TLFColorSensor* sensor);
-	TLFColorSensor(AWPWORD sx, AWPWORD sy, AWPWORD xbase, AWPWORD ybase);
-	/*
-	calc features value
-	*/
-	virtual unsigned int      uCalcValue(TLFImage* pImage);
-	virtual double            fCalcValue(TLFImage* pImage);
-
-	virtual const char* GetName()
-	{
-		return "TLFColorSensor";
-	}
-};
 
 class TLFColorSensor9Bit : public ILFFeature
 {

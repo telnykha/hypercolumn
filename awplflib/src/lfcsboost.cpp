@@ -508,30 +508,6 @@ void TCSAdaBoost::InitFeatures()
 				   else
 					   delete wt;
 
-				   TLFVAFeature Sensor6(sx, sy, w / 2, h);
-				   wt = new TCSWeakTraining(&Sensor6);
-				   if (this->m_VAFeature)
-					   m_Features.Add(wt);
-				   else
-					   delete wt;
-				   TLFHAFeature Sensor7(sx, sy, w, h / 2);
-				   wt = new TCSWeakTraining(&Sensor7);
-				   if (this->m_HAFeature)
-					   m_Features.Add(wt);
-				   else
-					   delete wt;
-				   TLFDAFeature Sensor8(sx, sy, w / 2, h / 2);
-				   wt = new TCSWeakTraining(&Sensor8);
-				   if (this->m_DAFeature)
-					   m_Features.Add(wt);
-				   else
-					   delete wt;
-				   TLFCAFeature Sensor9(sx, sy, w / 3, h / 3);
-				   wt = new TCSWeakTraining(&Sensor9);
-				   if (this->m_CAFeature)
-					   m_Features.Add(wt);
-				   else
-					   delete wt;
 				   //TLFColorSensor9Bit Sensor10(sx,sy,w,h);
 				   //wt = new TCSWeakTraining(&Sensor10);
 				   //m_Features.Add(wt);

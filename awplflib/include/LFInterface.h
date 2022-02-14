@@ -119,10 +119,6 @@ public:
 	virtual bool Next()  = 0;
 	virtual bool Last()  = 0;
 
-	//virtual void Play() = 0;
-	//virtual void Stop() = 0;
-	//virtual bool IsPlaying() = 0;
-
 	virtual ILFImage* Frame() = 0;
 };
 

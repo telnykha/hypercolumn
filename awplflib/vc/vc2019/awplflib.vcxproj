@@ -243,12 +243,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LFAttrFilter.cpp" />
-    <ClCompile Include="..\..\src\LFAvgFeature.cpp" />
     <ClCompile Include="..\..\src\LFBuffer.cpp" />
     <ClCompile Include="..\..\src\LFBuilder.cpp" />
     <ClCompile Include="..\..\src\LFCascade.cpp" />
     <ClCompile Include="..\..\src\LFCluster.cpp" />
-    <ClCompile Include="..\..\src\LFColorDetector.cpp" />
     <ClCompile Include="..\..\src\LFCommon.cpp" />
     <ClCompile Include="..\..\src\lfcsboost.cpp" />
     <ClCompile Include="..\..\src\LFDatabase.cpp" />
@@ -263,9 +261,7 @@
     <ClCompile Include="..\..\src\LFHistogramm.cpp" />
     <ClCompile Include="..\..\src\LFImage.cpp" />
     <ClCompile Include="..\..\src\LFImageProcessor.cpp" />
-    <ClCompile Include="..\..\src\LFLabColor.cpp" />
     <ClCompile Include="..\..\src\LFLandmarks.cpp" />
-    <ClCompile Include="..\..\src\LFMotion.cpp" />
     <ClCompile Include="..\..\src\LFParameter.cpp" />
     <ClCompile Include="..\..\src\LFPredictors.cpp" />
     <ClCompile Include="..\..\src\LFSample.cpp" />
@@ -285,11 +281,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\LF.h" />
     <ClInclude Include="..\..\include\LFAttrFilter.h" />
-    <ClInclude Include="..\..\include\LFAvgFeature.h" />
     <ClInclude Include="..\..\include\LFBuffer.h" />
     <ClInclude Include="..\..\include\LFBuilder.h" />
     <ClInclude Include="..\..\include\LFCluster.h" />
-    <ClInclude Include="..\..\include\LFColorDetector.h" />
     <ClInclude Include="..\..\include\LFCore.h" />
     <ClInclude Include="..\..\include\LFCSBoost.h" />
     <ClInclude Include="..\..\include\LFDatabase.h" />
@@ -302,10 +296,8 @@
     <ClInclude Include="..\..\include\LFHistogramm.h" />
     <ClInclude Include="..\..\include\LFImageProcessor.h" />
     <ClInclude Include="..\..\include\LFInterface.h" />
-    <ClInclude Include="..\..\include\LFLabColor.h" />
     <ClInclude Include="..\..\include\LFLandmarks.h" />
     <ClInclude Include="..\..\include\LFMCDetector.h" />
-    <ClInclude Include="..\..\include\LFMotion.h" />
     <ClInclude Include="..\..\include\LFParameter.h" />
     <ClInclude Include="..\..\include\LFPredictors.h" />
     <ClInclude Include="..\..\include\LFSample.h" />
