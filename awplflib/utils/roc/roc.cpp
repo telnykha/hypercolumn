@@ -51,7 +51,11 @@ using namespace std;
 
 void Usage()
 {
+	printf("sizeof CSFeature %d\n", sizeof(TCSSensor));
 	printf("roc config.xml\n");
+	TCSSensor* s = new TCSSensor[10000000];
+	getchar();
+
 }
 
 int main(int argc, char* argv[])

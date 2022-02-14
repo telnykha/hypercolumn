@@ -56,6 +56,8 @@
 #ifndef _HLFEATURES_H
 #define _HLFEATURES_H
 
+#include "LFInterface.h"
+
 /** \defgroup LFFeatures 
 *	Implementation set of features of the Locate Framework
 *   @{
@@ -250,7 +252,7 @@ public:
 
 //---------------------------------------------------------------------------
 // сенсор преобразования Census для произвольного изображения
-class TCSSensor : public ILFFeature
+class TCSSensor : public ILFFeature, public _ILFFeature
 {
 protected:
 	// вычисление значения признака.
@@ -268,6 +270,16 @@ public:
 	virtual double           fCalcValue(TLFImage* pImage);
 
 	TCSSensor& operator = ( TCSSensor& Sensor);
+
+	// _ILFFeature 
+	virtual void shift(LFPoint delta);
+	virtual void scale(double factor);
+	virtual void setup(double factor, LFPoint shift);
+	virtual unsigned int uValue(ILFImage* image);
+	virtual double dValue(ILFImage* image);
+	virtual LFPoint corner();
+	virtual int width();
+	virtual int height();
 
 	virtual const char* GetName()
 	{

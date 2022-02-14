@@ -255,9 +255,9 @@ public:
 	virtual void shift(LFPoint delta)		  = 0;
 	virtual void scale(double factor)		  = 0;
 	virtual void setup(double factor, LFPoint shift) = 0;
-	virtual unsigned int uValue()			  = 0;
-	virtual double dValue()					  = 0;
-	virtual LFPoint corner()				  = 0;
+	virtual unsigned int uValue(ILFImage* image)			  = 0;
+	virtual double dValue(ILFImage* image)	  = 0;
+	virtual LFPoint corner()	  = 0;
 	virtual int width()						  = 0;
 	virtual int height()					  = 0;
 };

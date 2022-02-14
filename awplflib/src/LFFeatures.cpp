@@ -726,6 +726,50 @@ TCSSensor& TCSSensor::operator = (TCSSensor& Sensor)
 
   return *this;
 }
+
+void TCSSensor::shift(LFPoint delta)
+{
+	int x = (int)delta.x;
+	int y = (int)delta.y;
+	Shift(x, y);
+}
+
+void TCSSensor::scale(double factor)
+{
+	Scale(factor);
+}
+void TCSSensor::setup(double factor, LFPoint shift)
+{
+	int x = (int)shift.x;
+	int y = (int)shift.y;
+	Setup(factor, factor, x,y);
+}
+unsigned int TCSSensor::uValue(ILFImage* image)
+{
+	TLFImage* img = (TLFImage*)image;
+	return uCalcValue(img);
+}
+double TCSSensor::dValue(ILFImage* image)
+{
+	TLFImage* img = (TLFImage*)image;
+	return fCalcValue(img);
+}
+LFPoint TCSSensor::corner()
+{
+	LFPoint result;
+	result.x = this->m_sx;
+	result.y = this->m_sy;
+	return result;
+}
+int TCSSensor::width()
+{
+	return 3 * this->m_w;
+}
+int TCSSensor::height()
+{
+	return 3 * this->m_h;
+}
+
 /*
 	Features facory
 */

@@ -469,7 +469,7 @@ void TCSAdaBoost::InitFeatures()
 				   
 				   bool skip = false;// (rand() % 10) > 2;
 				   if (skip)
-					   continue;
+ 					   continue;
 				   TCSWeakTraining* wt = NULL;
 				   TLFVFeature Sensor0(sx, sy, w/2, h);
 				   wt = new TCSWeakTraining(&Sensor0);
