@@ -24,7 +24,7 @@
 *.lai
 *.la
 *.a
-*.lib
+#*.lib
 
 # Executables
 *.exe
@@ -79,3 +79,15 @@ test/awpipl_test/test_awpipl/x64/Release
 *.idb
 *.recipe
 *.tlog
+lib/x86/Release/tinyxml.lib
+lib/x86/Release/JPEGLIB.lib
+lib/x86/Release/awplflib.lib
+lib/Release/awpipl2.lib
+lib/x64/Debug/awplflib.lib
+lib/x64/Debug/tinyxml.lib
+lib/x64/Release/awplflib.lib
+lib/x64/Release/tinyxml.lib
+lib/x86/Debug/awpipl2.lib
+lib/x86/Debug/awplflib.lib
+lib/x86/Debug/JPEGLIB.lib
+lib/x86/Debug/tinyxml.lib
