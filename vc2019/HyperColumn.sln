@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio Version 16
+# Visual Studio Version 16
 VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JPEGLIB", "..\jpeg-6b\vc\vc2019\JPEGLIB.vcxproj", "{D22F6666-746D-4436-8EAD-481C2C37AF55}"
@@ -31,6 +31,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_awpipl", "..\test\awpipl_test\test_awpipl\test_awpipl.vcxproj", "{977ACFEE-35A1-4A7B-843D-85043478FD91}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FVLCore", "..\FVLCore\vc\vc2019\FVLCore.vcxproj", "{DAB4EACC-6213-4462-B073-5EFF5CC53614}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Player", "..\test\Player\Player.vcxproj", "{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8B0D0586-46EA-4F01-B391-150F2B2D9E48} = {8B0D0586-46EA-4F01-B391-150F2B2D9E48}
+		{E762D9A5-EFC5-4D8B-9ED6-61831D615883} = {E762D9A5-EFC5-4D8B-9ED6-61831D615883}
+		{EEC6D9A5-396E-4388-BD84-193BEF1657BA} = {EEC6D9A5-396E-4388-BD84-193BEF1657BA}
+		{505806D4-64FC-43A4-AD85-F1C94CBCE59A} = {505806D4-64FC-43A4-AD85-F1C94CBCE59A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +120,14 @@ Global
 		{DAB4EACC-6213-4462-B073-5EFF5CC53614}.Release|Win32.Build.0 = Release|Win32
 		{DAB4EACC-6213-4462-B073-5EFF5CC53614}.Release|x64.ActiveCfg = Release|x64
 		{DAB4EACC-6213-4462-B073-5EFF5CC53614}.Release|x64.Build.0 = Release|x64
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Debug|Win32.Build.0 = Debug|Win32
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Debug|x64.ActiveCfg = Debug|x64
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Debug|x64.Build.0 = Debug|x64
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|Win32.ActiveCfg = Release|Win32
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|Win32.Build.0 = Release|Win32
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.ActiveCfg = Release|x64
+		{C48DF8E0-F07E-48D5-AEB4-997CCEB7F44C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
