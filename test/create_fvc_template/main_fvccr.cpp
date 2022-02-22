@@ -1,7 +1,4 @@
-#pragma hdrstop
-#pragma argsused
-
-#ifdef _WIN32
+#ifdef WIN32
 #include <tchar.h>
 #else
   typedef char _TCHAR;
@@ -16,14 +13,6 @@
 #include "_LF.h"
 #include "fvlcore.h"
 
-extern "C"
-{
-	#pragma link "awpipl2b.lib"
-	#pragma link "JPEGLIB.lib"
-
-}
-#pragma link "TinyXML.lib"
-#pragma link "awplflibb.lib"
 
 void Usage()
 {
@@ -40,7 +29,7 @@ void Usage()
 
 	// main program
 	TiXmlDocument doc;
-	if (!doc.LoadFile(argv[1]))
+	if (!doc.LoadFile((const char*)argv[1]))
 	{
 		printf("error: cannot load configuration.\n");
 		return 1;

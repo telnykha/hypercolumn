@@ -91,3 +91,11 @@ lib/x86/Debug/awpipl2.lib
 lib/x86/Debug/awplflib.lib
 lib/x86/Debug/JPEGLIB.lib
 lib/x86/Debug/tinyxml.lib
+*.lib
+*.db
+*.iobj
+*.ipdb
+test/awpcvvideo_test/vc2019/Debug/awpcvvideo_test.vcxproj.FileListAbsolute.txt
+test/awpcvvideo_test/vc2019/Release/awpcvvideo_test.vcxproj.FileListAbsolute.txt
+test/awpcvvideo_test/vc2019/x64/Debug/awpcvvideo_test.vcxproj.FileListAbsolute.txt
+test/awpcvvideo_test/vc2019/x64/Release/awpcvvideo_test.vcxproj.FileListAbsolute.txt
