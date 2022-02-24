@@ -320,6 +320,11 @@
     <ClInclude Include="..\..\include\_LF.h" />
     <ClInclude Include="..\..\include\_LFParameters.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\awpipl2\vc\vc2019\awpipl2.vcxproj">
+      <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
