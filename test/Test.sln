@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awpcvvideo", "..\awpcvvideo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FVLCore", "..\FVLCore\vc\vc2019\FVLCore.vcxproj", "{DAB4EACC-6213-4462-B073-5EFF5CC53614}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GetPCAFeatures", "GetPCAFeatures\vc2019\GetPCAFeatures.vcxproj", "{AB69A825-F665-48ED-B7E8-DE0CC91DD572}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -91,6 +93,14 @@ Global
 		{DAB4EACC-6213-4462-B073-5EFF5CC53614}.Release|x64.Build.0 = Release|x64
 		{DAB4EACC-6213-4462-B073-5EFF5CC53614}.Release|x86.ActiveCfg = Release|Win32
 		{DAB4EACC-6213-4462-B073-5EFF5CC53614}.Release|x86.Build.0 = Release|Win32
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Debug|x64.ActiveCfg = Debug|x64
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Debug|x64.Build.0 = Debug|x64
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Debug|x86.ActiveCfg = Debug|Win32
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Debug|x86.Build.0 = Debug|Win32
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Release|x64.ActiveCfg = Release|x64
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Release|x64.Build.0 = Release|x64
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Release|x86.ActiveCfg = Release|Win32
+		{AB69A825-F665-48ED-B7E8-DE0CC91DD572}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
