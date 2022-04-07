@@ -334,6 +334,8 @@ public:
 {
 	double* p = pix + x + (y)*ww;
 
+	//h = (h-1)*ww;
+	//w = w - 1;
 	h = h*ww;
 
 	return (p[0] + p[w + h] - p[h] - p[w]);
